@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.28)
+project(Introducao_Desenvolvimento_Jogos)
+
+set(CMAKE_CXX_STANDARD 14)
+
+find_package(SDL2 REQUIRED)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+
+
+add_executable(Introducao_Desenvolvimento_Jogos
+        main.cpp
+        include/Game.hpp
+        src/Game.cpp
+        include/State.hpp
+        src/State.cpp
+        include/Sprite.hpp
+        src/Sprite.cpp
+        include/Music.hpp
+        src/Music.cpp
+)
+
+target_link_libraries(Introducao_Desenvolvimento_Jogos
+        SDL2::SDL2
+        SDL2_image::SDL2_image
+        SDL2_mixer::SDL2_mixer
+        SDL2_ttf::SDL2_ttf
+)
