@@ -14,13 +14,21 @@ Music::Music(string file) {
 
 void Music::Play(int times) {
     if (music != nullptr) {
-        Mix_VolumeMusic(1);
-        Mix_PlayMusic(music, times);
+        Mix_VolumeMusic(32);
+        bool mix_playmusic = Mix_PlayMusic(music, times);
+        if (mix_playmusic == -1) {
+            cerr << "Erro - Mix_PlayMusic: " << SDL_GetError() << endl;
+            exit(1);
+        }
     }
 }
 
 void Music::Stop(int msToStop) {
-    Mix_FadeOutMusic(msToStop);
+    bool mix_fadeoutmusic = Mix_FadeOutMusic(msToStop);
+    if (mix_fadeoutmusic == 0) {
+        cerr << "Erro - Mix_FadeOutMusic: " << SDL_GetError() << endl;
+        exit(1);
+    }
 }
 
 void Music::Open(string file) {
@@ -41,6 +49,8 @@ bool Music::IsOpen() {
 
 Music::~Music() {
     if (music != nullptr) {
+        Stop();
         Mix_FreeMusic(music);
+        music = nullptr;
     }
 }

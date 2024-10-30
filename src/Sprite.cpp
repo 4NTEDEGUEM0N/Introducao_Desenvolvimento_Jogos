@@ -17,6 +17,7 @@ Sprite::Sprite(string file) {
 Sprite::~Sprite() {
     if (texture != nullptr) {
         SDL_DestroyTexture(texture);
+        texture = nullptr;
     }
 }
 

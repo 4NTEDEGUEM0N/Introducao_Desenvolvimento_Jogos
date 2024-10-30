@@ -61,6 +61,8 @@ Game::Game(string title, int width, int height){
 }
 
 Game::~Game(){
+    delete state;
+    state = nullptr;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     Mix_CloseAudio();
@@ -85,6 +87,12 @@ void Game::Run(){
         SDL_RenderPresent(renderer);
         SDL_Delay(15);
     }
+    Quit();
+}
+
+void Game::Quit() {
+    delete instance;
+    instance = nullptr;
 }
 
 

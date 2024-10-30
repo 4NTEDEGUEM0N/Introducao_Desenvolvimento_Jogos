@@ -20,6 +20,7 @@ public:
     SDL_Renderer* GetRenderer();
     State& GetState();
     static Game& GetInstance();
+    void Quit();
 };
 
 #endif //GAME_HPP
