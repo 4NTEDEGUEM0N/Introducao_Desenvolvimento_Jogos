@@ -23,6 +23,9 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Vec2.cpp
         include/Rect.hpp
         src/Rect.cpp
+        include/Component.hpp
+        include/GameObject.hpp
+        src/GameObject.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos
