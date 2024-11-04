@@ -33,6 +33,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Component.cpp
         include/Zombie.hpp
         src/Zombie.cpp
+        include/Animator.hpp
+        src/Animator.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

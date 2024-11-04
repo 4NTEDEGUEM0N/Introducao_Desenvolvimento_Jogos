@@ -14,11 +14,12 @@ State::State() {
     bgObject->AddComponent(bg);
 
     GameObject* zombieObject = new GameObject();
+    objectArray.emplace_back(zombieObject);
     Zombie* zmb = new Zombie(*zombieObject);
     zombieObject->box.X = 600;
     zombieObject->box.Y = 450;
     zombieObject->AddComponent(zmb);
-    objectArray.emplace_back(zombieObject);
+
 
     music.Open("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/audio/BGM.wav");
     music.Play();
