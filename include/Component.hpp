@@ -14,9 +14,9 @@ public:
     Component(GameObject& associated);
     virtual ~Component();
 
-    void virtual Update(float dt) = 0;
-    void virtual Render() = 0;
-    bool virtual Is(string type) = 0;
+    virtual void Update(float dt) = 0;
+    virtual void Render() = 0;
+    virtual bool Is(string type) = 0;
 };
 
 #endif //COMPONENT_HPP

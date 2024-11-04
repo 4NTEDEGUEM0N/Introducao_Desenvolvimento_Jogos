@@ -1,9 +1,16 @@
 #include "../include/State.hpp"
 #include <iostream>
 
+#include "../include/SpriteRenderer.hpp"
+
 State::State() {
     quitRequested = false;
-    bg.Open("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
+
+    GameObject* go = new GameObject();
+    SpriteRenderer* bg = new SpriteRenderer(*go, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
+    go->AddComponent(bg);
+    objectArray.emplace_back(go);
+
     music.Open("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/audio/BGM.wav");
     music.Play();
 }
@@ -35,7 +42,6 @@ void State::Render() {
     for (int i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Render();
     }
-    bg.Render(0, 0);
 }
 
 bool State::QuitRequested() {

@@ -26,6 +26,11 @@ add_executable(Introducao_Desenvolvimento_Jogos
         include/Component.hpp
         include/GameObject.hpp
         src/GameObject.cpp
+        include/Animation.hpp
+        src/Animation.cpp
+        include/SpriteRenderer.hpp
+        src/SpriteRenderer.cpp
+        src/Component.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

@@ -7,13 +7,12 @@
 using namespace std;
 
 class Rect {
-private:
+public:
     float X;
     float Y;
     float W;
     float H;
 
-public:
     Rect(float x = 0, float y = 0, float w = 0, float h = 0);
     float GetX();
     float GetY();
