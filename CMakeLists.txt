@@ -31,6 +31,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         include/SpriteRenderer.hpp
         src/SpriteRenderer.cpp
         src/Component.cpp
+        include/Zombie.hpp
+        src/Zombie.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

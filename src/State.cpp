@@ -2,14 +2,23 @@
 #include <iostream>
 
 #include "../include/SpriteRenderer.hpp"
+#include "../include/Zombie.hpp"
+
 
 State::State() {
     quitRequested = false;
 
-    GameObject* go = new GameObject();
-    SpriteRenderer* bg = new SpriteRenderer(*go, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
-    go->AddComponent(bg);
-    objectArray.emplace_back(go);
+    GameObject* bgObject = new GameObject();
+    objectArray.emplace_back(bgObject);
+    SpriteRenderer* bg = new SpriteRenderer(*bgObject, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
+    bgObject->AddComponent(bg);
+
+    GameObject* zombieObject = new GameObject();
+    Zombie* zmb = new Zombie(*zombieObject);
+    zombieObject->box.X = 600;
+    zombieObject->box.Y = 450;
+    zombieObject->AddComponent(zmb);
+    objectArray.emplace_back(zombieObject);
 
     music.Open("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/audio/BGM.wav");
     music.Play();
