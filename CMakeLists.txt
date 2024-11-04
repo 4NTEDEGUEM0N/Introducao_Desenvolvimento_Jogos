@@ -19,6 +19,10 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Sprite.cpp
         include/Music.hpp
         src/Music.cpp
+        include/Vec2.hpp
+        src/Vec2.cpp
+        include/Rect.hpp
+        src/Rect.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos
