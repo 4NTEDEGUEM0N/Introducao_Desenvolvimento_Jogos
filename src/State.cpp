@@ -9,12 +9,12 @@ State::State() {
     quitRequested = false;
 
     GameObject* bgObject = new GameObject();
-    objectArray.emplace_back(bgObject);
+    AddObject(bgObject);
     SpriteRenderer* bg = new SpriteRenderer(*bgObject, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
     bgObject->AddComponent(bg);
 
     GameObject* zombieObject = new GameObject();
-    objectArray.emplace_back(zombieObject);
+    AddObject(zombieObject);
     Zombie* zmb = new Zombie(*zombieObject);
     zombieObject->box.X = 600;
     zombieObject->box.Y = 450;
