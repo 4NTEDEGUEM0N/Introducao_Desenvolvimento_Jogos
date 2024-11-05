@@ -35,6 +35,10 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Zombie.cpp
         include/Animator.hpp
         src/Animator.cpp
+        include/TileSet.hpp
+        src/TileSet.cpp
+        include/TileMap.hpp
+        src/TileMap.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

@@ -11,8 +11,7 @@ Sprite::Sprite() {
 
 Sprite::Sprite(string file, int frame_count_w, int frame_count_h) {
     texture = nullptr;
-    frameCountW = frame_count_w;
-    frameCountH = frame_count_h;
+    SetFrameCount(frame_count_w, frame_count_h);
     Open(file);
 }
 
