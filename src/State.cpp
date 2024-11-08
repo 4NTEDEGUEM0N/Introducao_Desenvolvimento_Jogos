@@ -20,7 +20,7 @@ State::State() {
     tileMapObject->box.X = 0;
     tileMapObject->box.Y = 0;
     TileSet* tileSet = new TileSet("../Recursos/img/Tileset.png", 64, 64);
-    TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map.txt", tileSet);
+    TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map_test.txt", tileSet);
     tileMapObject->AddComponent(tileMap);
 
     GameObject* zombieObject = new GameObject();
