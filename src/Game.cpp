@@ -3,6 +3,8 @@
 #include <SDL2/SDL_mixer.h>
 #include <iostream>
 
+#include "../include/Resources.hpp"
+
 using namespace std;
 
 Game* Game::instance = nullptr;
@@ -88,6 +90,9 @@ void Game::Run(){
         SDL_Delay(15);
     }
     Quit();
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
 }
 
 void Game::Quit() {

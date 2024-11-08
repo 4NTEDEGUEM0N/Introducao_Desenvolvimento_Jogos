@@ -3,8 +3,8 @@
 #include "../include/Animator.hpp"
 #include <iostream>
 
-Zombie::Zombie(GameObject& associated):Component(associated), deathSound("../Recursos/audio/Dead.wav") {
-    hitpoints = 100;
+Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound("../Recursos/audio/Dead.wav") {
+    hitpoints = hp;
     hasPlayedDeathSound = false;
 
     SpriteRenderer* zmb = new SpriteRenderer(associated, "../Recursos/img/Enemy.png", 3,2);

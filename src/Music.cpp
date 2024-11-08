@@ -1,6 +1,8 @@
 #include "../include/Music.hpp"
 #include <iostream>
 
+#include "../include/Resources.hpp"
+
 using namespace std;
 
 Music::Music() {
@@ -33,10 +35,10 @@ void Music::Stop(int msToStop) {
 
 void Music::Open(string file) {
     if (music != nullptr) {
-        Mix_FreeMusic(music);
+        music = nullptr;
     }
 
-    music = Mix_LoadMUS(file.c_str());
+    music = Resources::GetMusic(file);
     if (music == nullptr) {
         cerr << "Erro - Mix_LoadMUS: " << SDL_GetError() << endl;
         exit(1);
@@ -50,7 +52,6 @@ bool Music::IsOpen() {
 Music::~Music() {
     if (music != nullptr) {
         Stop();
-        Mix_FreeMusic(music);
         music = nullptr;
     }
 }

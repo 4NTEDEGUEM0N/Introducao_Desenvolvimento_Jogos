@@ -11,7 +11,7 @@ private:
     bool hasPlayedDeathSound;
 
 public:
-    Zombie(GameObject& associated);
+    Zombie(GameObject& associated, int hp);
     void Damage(int damage);
     void Update(float dt);
     void Render();

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "../include/Resources.hpp"
+
 Sound::Sound() {
     chunk = nullptr;
 }
@@ -26,7 +28,10 @@ void Sound::Stop() {
 }
 
 void Sound::Open(string file) {
-    chunk = Mix_LoadWAV(file.c_str());
+    if (chunk != nullptr) {
+        chunk = nullptr;
+    }
+    chunk = Resources::GetSound(file);
     if (chunk == nullptr) {
         cerr << "Erro - Mix_LoadWAV: " << SDL_GetError() << endl;
         exit(1);
@@ -36,7 +41,7 @@ void Sound::Open(string file) {
 Sound::~Sound() {
     if (chunk != nullptr) {
         Mix_HaltChannel(channel);
-        Mix_FreeChunk(chunk);
+        chunk = nullptr;
     }
 }
 

@@ -1,5 +1,6 @@
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
+#include "../include/Resources.hpp"
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
@@ -17,21 +18,16 @@ Sprite::Sprite(string file, int frame_count_w, int frame_count_h) {
 
 Sprite::~Sprite() {
     if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
         texture = nullptr;
     }
 }
 
 void Sprite::Open(string file) {
     if (texture != nullptr) {
-        SDL_DestroyTexture(texture);
+        texture == nullptr;
     }
 
-    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
-    if (texture == nullptr) {
-        cerr << "Erro - IMG_LoadTexture: " << SDL_GetError() << endl;
-        exit(1);
-    }
+    texture = Resources::GetImage(file);
 
     SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
     SetClip(0, 0, width, height);
