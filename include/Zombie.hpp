@@ -2,10 +2,13 @@
 #define ZOMBIE_HPP
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include "Sound.hpp"
 
 class Zombie : public Component {
 private:
     int hitpoints;
+    Sound deathSound;
+    bool hasPlayedDeathSound;
 
 public:
     Zombie(GameObject& associated);

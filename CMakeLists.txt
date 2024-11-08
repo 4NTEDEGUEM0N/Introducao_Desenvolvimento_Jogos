@@ -39,6 +39,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/TileSet.cpp
         include/TileMap.hpp
         src/TileMap.cpp
+        include/Sound.hpp
+        src/Sound.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

@@ -12,15 +12,15 @@ State::State() {
 
     GameObject* bgObject = new GameObject();
     AddObject(bgObject);
-    SpriteRenderer* bg = new SpriteRenderer(*bgObject, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Background.png");
+    SpriteRenderer* bg = new SpriteRenderer(*bgObject, "../Recursos/img/Background.png");
     bgObject->AddComponent(bg);
 
     GameObject* tileMapObject = new GameObject();
     AddObject(tileMapObject);
     tileMapObject->box.X = 0;
     tileMapObject->box.Y = 0;
-    TileSet* tileSet = new TileSet("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/img/Tileset.png", 64, 64);
-    TileMap* tileMap = new TileMap(*tileMapObject, "/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/map/map.txt", tileSet);
+    TileSet* tileSet = new TileSet("../Recursos/img/Tileset.png", 64, 64);
+    TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map.txt", tileSet);
     tileMapObject->AddComponent(tileMap);
 
     GameObject* zombieObject = new GameObject();
@@ -30,7 +30,7 @@ State::State() {
     zombieObject->box.Y = 450;
     zombieObject->AddComponent(zmb);
 
-    music.Open("/home/thiago/CLionProjects/Introducao_Desenvolvimento_Jogos/Recursos/audio/BGM.wav");
+    music.Open("../Recursos/audio/BGM.wav");
     music.Play();
 }
 
