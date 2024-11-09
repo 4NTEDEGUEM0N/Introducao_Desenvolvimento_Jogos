@@ -6,9 +6,9 @@
 
 using namespace std;
 
-unordered_map<std::string, SDL_Texture*> Resources::imageTable;
-unordered_map<std::string, Mix_Music*> Resources::musicTable;
-unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
+unordered_map<string, SDL_Texture*> Resources::imageTable;
+unordered_map<string, Mix_Music*> Resources::musicTable;
+unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
 SDL_Texture* Resources::GetImage(string file) {
     SDL_Texture* texture = nullptr;

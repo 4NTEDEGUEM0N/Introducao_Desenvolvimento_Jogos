@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "../include/Resources.hpp"
+#include "../include/InputManager.hpp"
 
 using namespace std;
 
@@ -82,6 +83,7 @@ SDL_Renderer* Game::GetRenderer(){
 void Game::Run(){
     state = new State();
     while(!state->QuitRequested()){
+        InputManager::GetInstance().Update();
         state->Update(0);
         state->Render();
         SDL_RenderPresent(renderer);

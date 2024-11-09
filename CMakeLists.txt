@@ -43,6 +43,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Sound.cpp
         include/Resources.hpp
         src/Resources.cpp
+        include/InputManager.hpp
+        src/InputManager.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

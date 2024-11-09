@@ -3,7 +3,9 @@
 #include "../include/Animator.hpp"
 #include <iostream>
 
-Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound("../Recursos/audio/Dead.wav") {
+#include "../include/InputManager.hpp"
+
+Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound("../Recursos/audio/Dead.wav"), hitSound("../Recursos/audio/Hit0.wav") {
     hitpoints = hp;
     hasPlayedDeathSound = false;
 
@@ -34,7 +36,16 @@ void Zombie::Damage(int damage) {
 }
 
 void Zombie::Update(float dt) {
-    Damage(1);
+    if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON)) {
+        int mouseX = InputManager::GetInstance().GetMouseX();
+        int mouseY = InputManager::GetInstance().GetMouseY();
+        Vec2 mousePos = Vec2(mouseX, mouseY);
+
+        if (associated.box.contains(mousePos)) {
+            hitSound.Play(1);
+            Damage(25);
+        }
+    }
 }
 
 void Zombie::Render() {}

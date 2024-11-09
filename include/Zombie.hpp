@@ -9,6 +9,7 @@ private:
     int hitpoints;
     Sound deathSound;
     bool hasPlayedDeathSound;
+    Sound hitSound;
 
 public:
     Zombie(GameObject& associated, int hp);
