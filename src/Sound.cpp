@@ -6,6 +6,7 @@
 
 Sound::Sound() {
     chunk = nullptr;
+    channel = -1;
 }
 
 Sound::Sound(string file): Sound() {
@@ -22,7 +23,7 @@ void Sound::Play(int times) {
 }
 
 void Sound::Stop() {
-    if (chunk != nullptr) {
+    if (chunk != nullptr && channel != -1) {
         Mix_HaltChannel(channel);
     }
 }
@@ -39,7 +40,7 @@ void Sound::Open(string file) {
 }
 
 Sound::~Sound() {
-    if (chunk != nullptr) {
+    if (chunk != nullptr && channel != -1) {
         Mix_HaltChannel(channel);
         chunk = nullptr;
     }

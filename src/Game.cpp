@@ -97,8 +97,10 @@ void Game::Run(){
 }
 
 void Game::Quit() {
-    delete instance;
-    instance = nullptr;
+    if (instance != nullptr) {
+        delete instance;
+        instance = nullptr;
+    }
 }
 
 
