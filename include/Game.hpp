@@ -10,10 +10,13 @@ using namespace std;
 class Game {
 private:
     static Game* instance;
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    State* state;
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+    State* state = nullptr;
     Game(string title, int width, int height);
+    int frameStart = 0;
+    float dt = 0;
+    void CalculateDeltaTime();
 public:
     ~Game();
     void Run();
@@ -21,6 +24,7 @@ public:
     State& GetState();
     static Game& GetInstance();
     static void Quit();
+    float GetDeltaTime();
 };
 
 #endif //GAME_HPP

@@ -13,8 +13,7 @@ Animator::Animator(GameObject& associated):Component(associated) {
 
 void Animator::Update(float dt) {
     if (frameTime != 0) {
-        //timeElapsed += dt;
-        timeElapsed += 1;
+        timeElapsed += dt;
     }
     if (timeElapsed > frameTime) {
         currentFrame++;

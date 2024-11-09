@@ -83,8 +83,9 @@ SDL_Renderer* Game::GetRenderer(){
 void Game::Run(){
     state = new State();
     while(!state->QuitRequested()){
+        CalculateDeltaTime();
         InputManager::GetInstance().Update();
-        state->Update(0);
+        state->Update(dt);
         state->Render();
         SDL_RenderPresent(renderer);
         SDL_Delay(15);
@@ -103,4 +104,13 @@ void Game::Quit() {
     }
 }
 
+void Game::CalculateDeltaTime(){
+    int newFrameStart = SDL_GetTicks();
+    dt = (newFrameStart - frameStart) / 1000.0;
+    frameStart = newFrameStart;
+}
+
+float Game::GetDeltaTime(){
+    return dt;
+}
 

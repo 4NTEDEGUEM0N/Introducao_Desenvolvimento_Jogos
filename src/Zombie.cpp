@@ -8,13 +8,15 @@
 Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound("../Recursos/audio/Dead.wav"), hitSound("../Recursos/audio/Hit0.wav") {
     hitpoints = hp;
     hasPlayedDeathSound = false;
+    hit = false;
 
     SpriteRenderer* zmb = new SpriteRenderer(associated, "../Recursos/img/Enemy.png", 3,2);
     associated.AddComponent(zmb);
 
     Animator *animator = new Animator(associated);
-    animator->AddAnimation("walking", Animation(0, 3, 10));
+    animator->AddAnimation("walking", Animation(0, 3, 0.2));
     animator->AddAnimation("dead", Animation(5, 5, 0));
+    animator->AddAnimation("hit", Animation(4, 4, 0));
     animator->SetAnimation("walking");
     associated.AddComponent(animator);
 
@@ -23,15 +25,21 @@ Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound
 
 void Zombie::Damage(int damage) {
     hitpoints -= damage;
-    if (hitpoints <= 0) {
+    if (hitpoints <= 0 && !hasPlayedDeathSound) {
         Component* component = associated.GetComponent("Animator");
         Animator* animator = dynamic_cast<Animator*>(component);
         animator->SetAnimation("dead");
 
-        if (!hasPlayedDeathSound) {
-            hasPlayedDeathSound = true;
-            deathSound.Play(1);
-        }
+        hasPlayedDeathSound = true;
+        deathSound.Play(1);
+        deathTimer.Restart();
+
+    } else if (hitpoints > 0 && !hasPlayedDeathSound) {
+        hit = true;
+        hitTimer.Restart();
+        Component* component = associated.GetComponent("Animator");
+        Animator* animator = dynamic_cast<Animator*>(component);
+        animator->SetAnimation("hit");
     }
 }
 
@@ -45,6 +53,18 @@ void Zombie::Update(float dt) {
             hitSound.Play(1);
             Damage(25);
         }
+    }
+    hitTimer.Update(dt);
+    if (hit && hitTimer.Get() > 0.5 && hitpoints > 0) {
+        hit = false;
+        Component* component = associated.GetComponent("Animator");
+        Animator* animator = dynamic_cast<Animator*>(component);
+        animator->SetAnimation("walking");
+    }
+
+    deathTimer.Update(dt);
+    if (hitpoints <= 0 && deathTimer.Get() > 5) {
+        associated.RequestDelete();
     }
 }
 

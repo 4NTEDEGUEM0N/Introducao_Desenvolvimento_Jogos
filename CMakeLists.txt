@@ -45,6 +45,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Resources.cpp
         include/InputManager.hpp
         src/InputManager.cpp
+        include/Timer.hpp
+        src/Timer.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos
