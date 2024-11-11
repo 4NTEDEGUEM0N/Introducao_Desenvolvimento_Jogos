@@ -8,19 +8,19 @@ Vec2::Vec2(float x, float y){
     Y = y;
 }
 
-float Vec2::GetX() {
+float Vec2::GetX() const {
     return X;
 }
 
-float Vec2::GetY() {
+float Vec2::GetY() const {
     return Y;
 }
 
-Vec2 Vec2::operator+(Vec2& vector2) {
+Vec2 Vec2::operator+(const Vec2& vector2) {
     return Vec2(X + vector2.GetX(), Y + vector2.GetY());
 }
 
-Vec2 Vec2::operator-(Vec2& vector2) {
+Vec2 Vec2::operator-(const Vec2& vector2) {
     return Vec2(X - vector2.GetX(), Y - vector2.GetY());
 }
 
@@ -59,7 +59,7 @@ Vec2 Vec2::rotate(float angle) {
     return Vec2(x, y);
 }
 
-Vec2& Vec2::operator=(Vec2& vector2){
+Vec2& Vec2::operator=(const Vec2& vector2){
     if (this != &vector2) {
         X = vector2.GetX();
         Y = vector2.GetY();

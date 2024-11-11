@@ -1,6 +1,7 @@
 #include "../include/Zombie.hpp"
 #include "../include/SpriteRenderer.hpp"
 #include "../include/Animator.hpp"
+#include "../include/Camera.hpp"
 #include <iostream>
 
 #include "../include/InputManager.hpp"
@@ -47,7 +48,9 @@ void Zombie::Update(float dt) {
     if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON)) {
         int mouseX = InputManager::GetInstance().GetMouseX();
         int mouseY = InputManager::GetInstance().GetMouseY();
-        Vec2 mousePos = Vec2(mouseX, mouseY);
+        float cameraX = Camera::pos.GetX();
+        float cameraY = Camera::pos.GetY();
+        Vec2 mousePos = Vec2(mouseX + cameraX, mouseY + cameraY);
 
         if (associated.box.contains(mousePos)) {
             hitSound.Play(1);

@@ -8,7 +8,7 @@
 #define ESCAPE_KEY SDLK_ESCAPE
 #define LEFT_MOUSE_BUTTON SDL_BUTTON_LEFT
 
-
+#include <SDL_keycode.h>
 #include <unordered_map>
 
 using namespace std;

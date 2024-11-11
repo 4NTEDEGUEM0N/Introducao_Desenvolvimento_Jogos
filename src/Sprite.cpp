@@ -1,6 +1,7 @@
 #include "../include/Sprite.hpp"
 #include "../include/Game.hpp"
 #include "../include/Resources.hpp"
+#include "../include/Camera.hpp"
 #include <SDL2/SDL_image.h>
 #include <iostream>
 
@@ -42,8 +43,8 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 
 void Sprite::Render(int x, int y, int w, int h) {
     SDL_Rect dstRect;
-    dstRect.x = x;
-    dstRect.y = y;
+    dstRect.x = x - Camera::pos.GetX();
+    dstRect.y = y - Camera::pos.GetY();
     dstRect.w = w;
     dstRect.h = h;
 

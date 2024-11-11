@@ -6,6 +6,7 @@
 #include "../include/TileMap.hpp"
 #include "../include/TileSet.hpp"
 #include "../include/InputManager.hpp"
+#include "../include/Camera.hpp"
 
 
 State::State() {
@@ -21,7 +22,7 @@ State::State() {
     tileMapObject->box.X = 0;
     tileMapObject->box.Y = 0;
     TileSet* tileSet = new TileSet("../Recursos/img/Tileset.png", 64, 64);
-    TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map_test.txt", tileSet);
+    TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map.txt", tileSet);
     tileMapObject->AddComponent(tileMap);
 
     music.Open("../Recursos/audio/BGM.wav");
@@ -57,10 +58,12 @@ void State::Update(float dt) {
         GameObject* zombieObject = new GameObject();
         AddObject(zombieObject);
         Zombie* zmb = new Zombie(*zombieObject, 100);
-        zombieObject->box.X = InputManager::GetInstance().GetMouseX();
-        zombieObject->box.Y = InputManager::GetInstance().GetMouseY();
+        zombieObject->box.X = InputManager::GetInstance().GetMouseX() + Camera::pos.GetX();
+        zombieObject->box.Y = InputManager::GetInstance().GetMouseY() + Camera::pos.GetY();
         zombieObject->AddComponent(zmb);
     }
+
+    Camera::Update(dt);
 }
 
 void State::Render() {

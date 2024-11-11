@@ -12,10 +12,10 @@ private:
 
 public:
     Vec2(float x = 0, float y = 0);
-    float GetX();
-    float GetY();
-    Vec2 operator+(Vec2& vector2);
-    Vec2 operator-(Vec2& vector2);
+    float GetX() const;
+    float GetY() const;
+    Vec2 operator+(const Vec2& vector2);
+    Vec2 operator-(const Vec2& vector2);
     Vec2 operator*(float scalar);
     float magnitude();
     Vec2 normalize();
@@ -23,7 +23,7 @@ public:
     float angle();
     static float slope(Vec2& vector1, Vec2& vector2);
     Vec2 rotate(float angle);
-    Vec2& operator=(Vec2& vector2);
+    Vec2& operator=(const Vec2& vector2);
 };
 
 
