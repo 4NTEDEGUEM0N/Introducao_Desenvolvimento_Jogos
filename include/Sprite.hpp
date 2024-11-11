@@ -16,6 +16,8 @@ private:
     int frameCountH;
 
 public:
+    bool cameraFollower;
+
     Sprite();
     Sprite(string file, int frame_count_w = 1, int frame_count_h = 1);
     ~Sprite();

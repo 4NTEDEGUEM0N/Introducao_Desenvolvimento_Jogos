@@ -16,6 +16,7 @@ public:
     void Render();
     bool Is(string type);
     void SetFrame(int frame);
+    void SetCameraFollower(bool cameraFollower);
 };
 
 #endif //SPRITERENDERER_HPP

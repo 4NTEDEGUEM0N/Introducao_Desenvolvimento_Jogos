@@ -13,6 +13,7 @@ Sprite::Sprite() {
 
 Sprite::Sprite(string file, int frame_count_w, int frame_count_h) {
     texture = nullptr;
+    cameraFollower = false;
     SetFrameCount(frame_count_w, frame_count_h);
     Open(file);
 }
@@ -43,8 +44,14 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 
 void Sprite::Render(int x, int y, int w, int h) {
     SDL_Rect dstRect;
-    dstRect.x = x - Camera::pos.GetX();
-    dstRect.y = y - Camera::pos.GetY();
+    if (!cameraFollower) {
+        dstRect.x = x - Camera::pos.GetX();
+        dstRect.y = y - Camera::pos.GetY();
+    } else {
+        dstRect.x = x;
+        dstRect.y = y;
+    }
+
     dstRect.w = w;
     dstRect.h = h;
 

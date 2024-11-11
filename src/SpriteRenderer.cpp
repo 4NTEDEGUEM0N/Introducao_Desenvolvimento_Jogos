@@ -34,3 +34,7 @@ void SpriteRenderer::Render() {
 bool SpriteRenderer::Is(string type) {
     return type == "SpriteRenderer";
 }
+
+void SpriteRenderer::SetCameraFollower(bool cameraFollower) {
+    sprite.cameraFollower = cameraFollower;
+}

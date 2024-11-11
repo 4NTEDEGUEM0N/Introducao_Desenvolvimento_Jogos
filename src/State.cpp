@@ -15,6 +15,7 @@ State::State() {
     GameObject* bgObject = new GameObject();
     AddObject(bgObject);
     SpriteRenderer* bg = new SpriteRenderer(*bgObject, "../Recursos/img/Background.png");
+    bg->SetCameraFollower(true);
     bgObject->AddComponent(bg);
 
     GameObject* tileMapObject = new GameObject();
