@@ -1,8 +1,10 @@
 #include "../include/TileMap.hpp"
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <sstream>
 
+#include "../include/Camera.hpp"
 #include "../include/GameObject.hpp"
 
 TileMap::TileMap(GameObject& associated, string file, TileSet* tileSet) : Component(associated) {
@@ -71,6 +73,10 @@ void TileMap::RenderLayer(int layer) {
 
     float baseX = associated.box.X;
     float baseY = associated.box.Y;
+
+    float paralaxFactor = ((-1.0f * (layer + 1))/mapDepth) + 1;
+    baseX -= Camera::pos.GetX() * paralaxFactor;
+    baseY -= Camera::pos.GetY() * paralaxFactor;
 
     for (int y = 0; y < mapHeight; ++y) {
         for (int x = 0; x < mapWidth; ++x) {

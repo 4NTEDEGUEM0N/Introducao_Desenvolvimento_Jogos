@@ -11,6 +11,7 @@ private:
 public:
     static Vec2 pos;
     static Vec2 speed;
+    static int speedMultiplier;
 
     static void Follow(GameObject* newFocus);
     static void Unfollow();

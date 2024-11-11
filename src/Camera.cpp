@@ -7,6 +7,7 @@
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::pos = Vec2(0, 0);
 Vec2 Camera::speed = Vec2(0, 0);
+int Camera::speedMultiplier = 200;
 
 void Camera::Follow(GameObject* newFocus) {
     focus = newFocus;
@@ -35,6 +36,6 @@ void Camera::Update(float dt) {
         }
 
         Vec2 speed_normalize = speed.normalize();
-        pos = pos + (speed_normalize * dt) * 200;
+        pos = pos + (speed_normalize * dt) * speedMultiplier;
     }
 }
