@@ -14,6 +14,9 @@ private:
     bool isDead;
 
 public:
+    Rect box;
+    bool started;
+
     GameObject();
     ~GameObject();
     void Update(float dt);
@@ -23,7 +26,7 @@ public:
     void AddComponent(Component* cpt);
     void RemoveComponent(Component* cpt);
     Component* GetComponent(string type);
-    Rect box;
+    void Start();
 };
 
 

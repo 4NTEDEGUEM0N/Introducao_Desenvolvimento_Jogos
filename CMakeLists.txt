@@ -49,6 +49,10 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Timer.cpp
         include/Camera.hpp
         src/Camera.cpp
+        include/Character.hpp
+        include/Gun.hpp
+        src/Character.cpp
+        src/Gun.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

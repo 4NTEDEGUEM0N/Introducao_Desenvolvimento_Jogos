@@ -9,23 +9,23 @@ Rect::Rect(float x, float y, float w, float h){
     H = h;
 }
 
-float Rect::GetX() {
+float Rect::GetX() const{
     return X;
 }
 
-float Rect::GetY() {
+float Rect::GetY() const{
     return Y;
 }
 
-float Rect::GetW() {
+float Rect::GetW() const{
     return W;
 }
 
-float Rect::GetH() {
+float Rect::GetH() const{
     return H;
 }
 
-Rect Rect::operator+(Vec2& vector) {
+Rect Rect::operator+(const Vec2& vector) {
     return Rect(X + vector.GetX(), Y + vector.GetY(), W, H);
 }
 
@@ -43,7 +43,7 @@ bool Rect::contains(Vec2& vector) {
     return (vector.GetX() >= X && vector.GetX() <= X + W && vector.GetY() >= Y && vector.GetY() <= Y + H);
 }
 
-Rect& Rect::operator=(Rect& rect2) {
+Rect& Rect::operator=(const Rect& rect2) {
     if (this != &rect2) {
         X = rect2.GetX();
         Y = rect2.GetY();

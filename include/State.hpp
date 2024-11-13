@@ -12,7 +12,8 @@ class State {
 private:
     Music music;
     bool quitRequested;
-    vector<unique_ptr<GameObject>> objectArray;
+    vector<shared_ptr<GameObject>> objectArray;
+    bool started;
 
 public:
     State();
@@ -21,7 +22,9 @@ public:
     void LoadAssets();
     void Update(float dt);
     void Render();
-    void AddObject(GameObject* go);
+    weak_ptr<GameObject> AddObject(GameObject* go);
+    weak_ptr<GameObject> GetObjectPtr(GameObject* go);
+    void Start();
 };
 
 

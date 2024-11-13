@@ -7,10 +7,12 @@
 #include "../include/TileSet.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Character.hpp"
 
 
 State::State() {
     quitRequested = false;
+    started = false;
 
     GameObject* bgObject = new GameObject();
     AddObject(bgObject);
@@ -26,8 +28,17 @@ State::State() {
     TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map.txt", tileSet);
     tileMapObject->AddComponent(tileMap);
 
+
     music.Open("../Recursos/audio/BGM.wav");
     music.Play();
+
+    GameObject* characterObject = new GameObject();
+    characterObject->box.X = 1280;
+    characterObject->box.Y = 1280;
+    AddObject(characterObject);
+    Character* character = new Character(*characterObject, "../Recursos/img/Player.png");
+    Camera::Follow(characterObject);
+    characterObject->AddComponent(character);
 }
 
 State::~State() {
@@ -77,6 +88,33 @@ bool State::QuitRequested() {
     return quitRequested;
 }
 
-void State::AddObject(GameObject* go) {
-    objectArray.emplace_back(go);
+weak_ptr<GameObject> State::AddObject(GameObject* go) {
+    shared_ptr<GameObject> goPtr(go);
+    objectArray.push_back(goPtr);
+
+    if (started) {
+        go->Start();
+    }
+
+    return weak_ptr<GameObject>(goPtr);
+}
+
+void State::Start() {
+    LoadAssets();
+
+    for (int i = 0; i < objectArray.size(); i++) {
+        objectArray[i]->Start();
+    }
+
+    started = true;
+}
+
+weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
+    for (int i = 0; i < objectArray.size(); i++) {
+        if (objectArray[i].get() == go) {
+            return weak_ptr<GameObject>(objectArray[i]);
+        }
+    }
+
+    return weak_ptr<GameObject>();
 }

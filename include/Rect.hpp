@@ -14,15 +14,15 @@ public:
     float H;
 
     Rect(float x = 0, float y = 0, float w = 0, float h = 0);
-    float GetX();
-    float GetY();
-    float GetW();
-    float GetH();
-    Rect operator+(Vec2& vector);
+    float GetX() const;
+    float GetY() const;
+    float GetW() const;
+    float GetH() const;
+    Rect operator+(const Vec2& vector);
     Vec2 center();
     static float distance(Rect& rect1, Rect& rect2);
     bool contains(Vec2& vector);
-    Rect& operator=(Rect& rect2);
+    Rect& operator=(const Rect& rect2);
 };
 
 
