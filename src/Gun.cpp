@@ -4,8 +4,10 @@
 
 #include "../include/SpriteRenderer.hpp"
 #include "../include/Animator.hpp"
+#include "../include/Bullet.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Game.hpp"
 
 Gun::Gun(GameObject& associated, weak_ptr<GameObject> character) : Component(associated),
                                                                    shotSound("../Recursos/audio/Range.wav"), reloadSound("../Recursos/audio/PumpAction.mp3"), character(character) {
@@ -29,7 +31,6 @@ void Gun::Update(float dt) {
         associated.RequestDelete();
         return;
     }
-    cerr << cooldown << endl;
 
     Vec2 character_center = character.lock()->box.center();
     float gunX = character_center.GetX() - associated.box.GetW() / 2;
@@ -73,6 +74,16 @@ void Gun::Shot(Vec2 target) {
     Vec2 direction = target - associated.box.center();
     direction = direction.normalize();
     angle = direction.angle();
+
+    GameObject* bulletObject = new GameObject();
+    bulletObject->box.X = associated.box.X + 35;
+    bulletObject->box.Y = associated.box.Y;
+    State& state = Game::GetInstance().GetState();
+    state.AddObject(bulletObject);
+
+    Bullet* bullet = new Bullet(*bulletObject, angle, 1000, 25, 1000);
+    bulletObject->AddComponent(bullet);
+
 
     shotSound.Play(1);
     cooldown = 50;

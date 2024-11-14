@@ -55,6 +55,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Gun.cpp
         include/PlayerController.hpp
         src/PlayerController.cpp
+        include/Bullet.hpp
+        src/Bullet.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos
