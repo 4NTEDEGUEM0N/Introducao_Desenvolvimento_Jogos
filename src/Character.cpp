@@ -1,4 +1,7 @@
 #include "../include/Character.hpp"
+
+#include <iostream>
+
 #include "../include/SpriteRenderer.hpp"
 #include "../include/Animator.hpp"
 #include "../include/Gun.hpp"
@@ -10,7 +13,7 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
     gun.reset();
     taskQueue = queue<Command>();
     speed = Vec2(0, 0);
-    linearSpeed = 0;
+    linearSpeed = 200;
     hp = 100;
     deathTimer = Timer();
     dead = false;
@@ -50,17 +53,15 @@ void Character::Update(float dt) {
         taskQueue.pop();
 
         if (task.type == Command::MOVE) {
-            Vec2 direction = task.pos - associated.box.center();
+            Vec2 direction = task.pos;
             direction = direction.normalize();
             speed = direction * linearSpeed;
 
             associated.box = associated.box + (speed * dt);
         } else if (task.type == Command::SHOOT) {
-            if (!gun.expired()) {
-                shared_ptr<GameObject> gunPtr = gun.lock();
-                Gun* gunCpt = dynamic_cast<Gun*>(gunPtr->GetComponent("Gun"));
-                gunCpt->Shot(task.pos);
-            }
+            Component* component = gun.lock()->GetComponent("Gun");
+            Gun* gunCpt = dynamic_cast<Gun*>(component);
+            gunCpt->Shot(task.pos);
         }
 
         if (hp <= 0 && !dead) {
@@ -98,6 +99,11 @@ bool Character::Is(string type) {
 
 void Character::Issue(Command task) {
     taskQueue.push(task);
+}
+
+Character::Command::Command(CommandType type, float x, float y) {
+    this->type = type;
+    this->pos = Vec2(x, y);
 }
 
 

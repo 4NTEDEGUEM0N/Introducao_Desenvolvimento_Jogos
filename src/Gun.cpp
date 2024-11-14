@@ -10,8 +10,9 @@
 Gun::Gun(GameObject& associated, weak_ptr<GameObject> character) : Component(associated),
                                                                    shotSound("../Recursos/audio/Range.wav"), reloadSound("../Recursos/audio/PumpAction.mp3"), character(character) {
     cdTimer = Timer();
-    cooldown = 250;
+    cooldown = 0;
     angle = 0;
+    reloaded = true;
 
     SpriteRenderer* gun = new SpriteRenderer(associated, "../Recursos/img/Gun.png", 3, 2);
     associated.AddComponent(gun);
@@ -28,6 +29,7 @@ void Gun::Update(float dt) {
         associated.RequestDelete();
         return;
     }
+    cerr << cooldown << endl;
 
     Vec2 character_center = character.lock()->box.center();
     float gunX = character_center.GetX() - associated.box.GetW() / 2;
@@ -42,12 +44,12 @@ void Gun::Update(float dt) {
         cooldown -= dt;
     }
 
-    if (cooldown <= 0) {
+    if (cooldown <= 0 && !reloaded) {
         Animator* animator = dynamic_cast<Animator*>(associated.GetComponent("Animator"));
         animator->SetAnimation("reload");
         reloadSound.Play(1);
         cdTimer.Restart();
-        cooldown = 250;
+        reloaded = true;
     }
 
     cdTimer.Update(dt);
@@ -73,8 +75,9 @@ void Gun::Shot(Vec2 target) {
     angle = direction.angle();
 
     shotSound.Play(1);
-    cooldown = 1;
+    cooldown = 50;
     cdTimer.Restart();
+    reloaded = false;
 }
 
 

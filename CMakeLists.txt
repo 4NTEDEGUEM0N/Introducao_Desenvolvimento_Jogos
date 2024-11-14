@@ -53,6 +53,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         include/Gun.hpp
         src/Character.cpp
         src/Gun.cpp
+        include/PlayerController.hpp
+        src/PlayerController.cpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

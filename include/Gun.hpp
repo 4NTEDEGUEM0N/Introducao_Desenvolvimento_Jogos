@@ -17,6 +17,7 @@ private:
     Timer cdTimer;
     weak_ptr<GameObject> character;
     float angle;
+    bool reloaded;
 
 public:
     Gun(GameObject& associated, weak_ptr<GameObject> character);

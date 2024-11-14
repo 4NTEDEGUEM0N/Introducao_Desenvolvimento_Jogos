@@ -8,6 +8,7 @@
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Character.hpp"
+#include "../include/PlayerController.hpp"
 
 
 State::State() {
@@ -39,6 +40,9 @@ State::State() {
     Character* character = new Character(*characterObject, "../Recursos/img/Player.png");
     Camera::Follow(characterObject);
     characterObject->AddComponent(character);
+    PlayerController* playerController = new PlayerController(*characterObject);
+    characterObject->AddComponent(playerController);
+
 }
 
 State::~State() {
