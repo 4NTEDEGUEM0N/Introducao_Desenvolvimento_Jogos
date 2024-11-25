@@ -23,8 +23,9 @@ void Animator::Update(float dt) {
         }
         Component* component = associated.GetComponent("SpriteRenderer");
         SpriteRenderer* spriteRenderer = dynamic_cast<SpriteRenderer*>(component);
+        SDL_RendererFlip flip = animations[currentAnimation].flip;
         if (spriteRenderer) {
-            spriteRenderer->SetFrame(currentFrame);
+            spriteRenderer->SetFrame(currentFrame, flip);
         } else {
             cerr << "Erro - Animator Update - SpriteRenderer não encontrado!" << endl;
         }
@@ -50,8 +51,9 @@ void Animator::SetAnimation(string name) {
 
         Component* component = associated.GetComponent("SpriteRenderer");
         SpriteRenderer* spriteRenderer = dynamic_cast<SpriteRenderer*>(component);
+        SDL_RendererFlip flip = animations[currentAnimation].flip;
         if (spriteRenderer) {
-            spriteRenderer->SetFrame(currentFrame);
+            spriteRenderer->SetFrame(currentFrame, flip);
         } else {
             cerr << "Erro - SetAnimation - SpriteRenderer não encontrado!" << endl;
         }

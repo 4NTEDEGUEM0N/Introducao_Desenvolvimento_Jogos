@@ -17,6 +17,7 @@ Gun::Gun(GameObject& associated, weak_ptr<GameObject> character) : Component(ass
     reloaded = true;
 
     SpriteRenderer* gun = new SpriteRenderer(associated, "../Recursos/img/Gun.png", 3, 2);
+    gun->SetScale(0.9, 0.9);
     associated.AddComponent(gun);
 
     Animator* animator = new Animator(associated);
@@ -31,12 +32,13 @@ void Gun::Update(float dt) {
         associated.RequestDelete();
         return;
     }
+    associated.angleDeg = angle * 180 / M_PI;
 
     Vec2 character_center = character.lock()->box.center();
     float gunX = character_center.GetX() - associated.box.GetW() / 2;
     float gunY = character_center.GetY() - associated.box.GetH() / 2;
     associated.box.X = gunX;
-    associated.box.Y = gunY + 25;
+    associated.box.Y = gunY + 20;
 
     Vec2 direction = Vec2(1, 0).rotate(angle);
     associated.box = associated.box + direction * 10;
@@ -57,6 +59,7 @@ void Gun::Update(float dt) {
     if (cdTimer.Get() > 0.5) {
         Animator* animator = dynamic_cast<Animator*>(associated.GetComponent("Animator"));
         animator->SetAnimation("idle");
+        angle = 0;
     }
 }
 

@@ -7,6 +7,7 @@
 
 Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance) : Component(associated) {
     SpriteRenderer* spriteRenderer = new SpriteRenderer(associated, "../Recursos/img/Bullet.png");
+    associated.angleDeg = (angle * 180 / M_PI) + 90;
     associated.AddComponent(spriteRenderer);
 
     this->speed = Vec2(1, 0).rotate(angle) * speed;

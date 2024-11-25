@@ -1,5 +1,7 @@
 #include "../include/SpriteRenderer.hpp"
 
+#include <iostream>
+
 #include "../include/GameObject.hpp"
 
 SpriteRenderer::SpriteRenderer(GameObject& associated):Component(associated) {}
@@ -21,14 +23,15 @@ void SpriteRenderer::Open(string file) {
     associated.box.H = sprite.GetHeight();
 }
 
-void SpriteRenderer::SetFrame(int frame) {
+void SpriteRenderer::SetFrame(int frame, SDL_RendererFlip flip) {
     sprite.SetFrame(frame);
+    sprite.SetFlip(flip);
 }
 
 void SpriteRenderer::Update(float dt) {}
 
 void SpriteRenderer::Render() {
-    sprite.Render(associated.box.X, associated.box.Y, associated.box.W, associated.box.H);
+    sprite.Render(associated.box.X, associated.box.Y, associated.box.W, associated.box.H, associated.angleDeg);
 }
 
 bool SpriteRenderer::Is(string type) {
@@ -37,4 +40,17 @@ bool SpriteRenderer::Is(string type) {
 
 void SpriteRenderer::SetCameraFollower(bool cameraFollower) {
     sprite.cameraFollower = cameraFollower;
+}
+
+void SpriteRenderer::SetScale(float scaleX, float scaleY) {
+    sprite.SetScale(scaleX, scaleY);
+    Vec2 old_center = associated.box.center();
+    associated.box.W = sprite.GetWidth();
+    associated.box.H = sprite.GetHeight();
+    associated.box.X = old_center.GetX() - associated.box.W / 2;
+    associated.box.Y = old_center.GetY() - associated.box.H / 2;
+
+    if (old_center != associated.box.center()) {
+        cerr << "Erro - GameObject box não centralizado" << endl;
+    }
 }

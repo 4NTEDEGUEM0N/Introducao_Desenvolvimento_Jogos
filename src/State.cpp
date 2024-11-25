@@ -9,6 +9,7 @@
 #include "../include/Camera.hpp"
 #include "../include/Character.hpp"
 #include "../include/PlayerController.hpp"
+#include <algorithm>
 
 
 State::State() {
@@ -28,7 +29,6 @@ State::State() {
     TileSet* tileSet = new TileSet("../Recursos/img/Tileset.png", 64, 64);
     TileMap* tileMap = new TileMap(*tileMapObject, "../Recursos/map/map.txt", tileSet);
     tileMapObject->AddComponent(tileMap);
-
 
     music.Open("../Recursos/audio/BGM.wav");
     music.Play();
@@ -82,7 +82,11 @@ void State::Update(float dt) {
     Camera::Update(dt);
 }
 
+bool Y_Sort(shared_ptr<GameObject> a, shared_ptr<GameObject> b) {
+    return a->box.Y < b->box.Y;
+}
 void State::Render() {
+    sort(objectArray.begin(), objectArray.end(), Y_Sort);
     for (int i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Render();
     }

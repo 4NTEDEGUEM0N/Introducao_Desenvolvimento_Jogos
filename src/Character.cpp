@@ -23,7 +23,8 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
 
     Animator* animator = new Animator(associated);
     animator->AddAnimation("idle", Animation(6, 9, 0.2));
-    animator->AddAnimation("walking", Animation(0, 5, 0.2));
+    animator->AddAnimation("walkingRight", Animation(0, 5, 0.2));
+    animator->AddAnimation("walkingLeft", Animation(0, 5, 0.2, SDL_FLIP_HORIZONTAL));
     animator->AddAnimation("dead", Animation(10, 11, 0.5));
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
@@ -75,7 +76,11 @@ void Character::Update(float dt) {
         if (task.type == Command::MOVE && hp > 0) {
             Component* component = associated.GetComponent("Animator");
             Animator* animator = dynamic_cast<Animator*>(component);
-            animator->SetAnimation("walking");
+            if (task.pos.GetX() < 0) {
+                animator->SetAnimation("walkingLeft");
+            } else {
+                animator->SetAnimation("walkingRight");
+            }
         }
 
         deathTimer.Update(dt);

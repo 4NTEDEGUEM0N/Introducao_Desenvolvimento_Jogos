@@ -14,6 +14,8 @@ Sprite::Sprite() {
 Sprite::Sprite(string file, int frame_count_w, int frame_count_h) {
     texture = nullptr;
     cameraFollower = false;
+    scale = Vec2(1, 1);
+    flip = SDL_FLIP_NONE;
     SetFrameCount(frame_count_w, frame_count_h);
     Open(file);
 }
@@ -42,7 +44,7 @@ void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y, int w, int h) {
+void Sprite::Render(int x, int y, int w, int h, float angle) {
     SDL_Rect dstRect;
     if (!cameraFollower) {
         dstRect.x = x - Camera::pos.GetX();
@@ -52,18 +54,18 @@ void Sprite::Render(int x, int y, int w, int h) {
         dstRect.y = y;
     }
 
-    dstRect.w = w;
-    dstRect.h = h;
+    dstRect.w = w * scale.GetX();
+    dstRect.h = h * scale.GetY();
 
-    SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect);
+    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstRect, angle, nullptr, flip);
 }
 
 int Sprite::GetWidth() {
-    return width / frameCountW;
+    return (width / frameCountW) * scale.GetX();
 }
 
 int Sprite::GetHeight() {
-    return height / frameCountH;
+    return (height / frameCountH) * scale.GetY();
 }
 
 bool Sprite::IsOpen() {
@@ -93,4 +95,17 @@ void Sprite::SetFrame(int frame) {
 void Sprite::SetFrameCount(int frame_count_w, int frame_count_h) {
     frameCountW = frame_count_w;
     frameCountH = frame_count_h;
+}
+
+void Sprite::SetScale(float scaleX, float scaleY) {
+    if (scaleX == 0 || scaleY == 0) {
+        cerr << "Erro - Escala inválida: scaleX=" << scaleX << ", scaleY=" << scaleY << endl;
+        exit(1);
+    }
+    scale.X = scaleX;
+    scale.Y = scaleY;
+}
+
+void Sprite::SetFlip(SDL_RendererFlip flip) {
+    this->flip = flip;
 }

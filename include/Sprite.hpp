@@ -4,6 +4,8 @@
 #include <string>
 #include <SDL2/SDL.h>
 
+#include "Vec2.hpp"
+
 using namespace std;
 
 class Sprite {
@@ -14,6 +16,8 @@ private:
     SDL_Rect clipRect;
     int frameCountW;
     int frameCountH;
+    Vec2 scale;
+    SDL_RendererFlip flip;
 
 public:
     bool cameraFollower;
@@ -23,12 +27,15 @@ public:
     ~Sprite();
     void Open(string file);
     void SetClip(int x, int y, int w, int h);
-    void Render(int x, int y, int w, int h);
+    void Render(int x, int y, int w, int h, float angle = 0);
     int GetWidth();
     int GetHeight();
     bool IsOpen();
     void SetFrame(int frame);
     void SetFrameCount(int frame_count_w, int frame_count_h);
+    void SetScale(float scaleX, float scaleY);
+    Vec2 GetScale();
+    void SetFlip(SDL_RendererFlip flip);
 };
 
 
