@@ -10,6 +10,7 @@
 
 void PlayerController::Update(float dt) {
     bool move = false;
+    bool shot = false;
     Component* component = associated.GetComponent("Character");
     Character* character = dynamic_cast<Character*>(component);
     Vec2 direction = Vec2(0, 0);
@@ -32,10 +33,13 @@ void PlayerController::Update(float dt) {
     if (InputManager::GetInstance().MousePress(1)) {
         float mouseX = InputManager::GetInstance().GetMouseX() + Camera::pos.GetX();
         float mouseY = InputManager::GetInstance().GetMouseY() + Camera::pos.GetY();
+        shot = true;
         character->Issue(Character::Command(Character::Command::SHOOT, mouseX, mouseY));
     }
     if (move)
         character->Issue(Character::Command(Character::Command::MOVE, direction.GetX(), direction.GetY()));
+    else if (!shot)
+        character->Issue(Character::Command(Character::Command::MOVE, 0, 0));
 }
 
 void PlayerController::Render() {

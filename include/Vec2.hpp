@@ -24,6 +24,7 @@ public:
     Vec2 rotate(float angle);
     Vec2& operator=(const Vec2& vector2);
     bool operator!=(const Vec2& vector2);
+    bool operator==(const Vec2& vector2);
 };
 
 

@@ -25,6 +25,7 @@ public:
     bool Is(string type);
     void SetAnimation(string name);
     void AddAnimation(string name, Animation anim);
+    string GetAnimation();
 };
 
 #endif //ANIMATOR_HPP

@@ -23,9 +23,11 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
 
     Animator* animator = new Animator(associated);
     animator->AddAnimation("idle", Animation(6, 9, 0.2));
+    animator->AddAnimation("idleLeft", Animation(6, 9, 0.2, SDL_FLIP_HORIZONTAL));
     animator->AddAnimation("walkingRight", Animation(0, 5, 0.2));
     animator->AddAnimation("walkingLeft", Animation(0, 5, 0.2, SDL_FLIP_HORIZONTAL));
     animator->AddAnimation("dead", Animation(10, 11, 0.5));
+
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
 }
@@ -49,16 +51,26 @@ void Character::Start() {
 }
 
 void Character::Update(float dt) {
+    Component* component = associated.GetComponent("Animator");
+    Animator* animator = dynamic_cast<Animator*>(component);
     while(!taskQueue.empty()) {
         Command task = taskQueue.front();
         taskQueue.pop();
 
         if (task.type == Command::MOVE) {
-            Vec2 direction = task.pos;
-            direction = direction.normalize();
-            speed = direction * linearSpeed;
+            if (task.pos == Vec2(0,0)) {
+                string currentAnimation = animator->GetAnimation();
+                if (currentAnimation == "walkingRight")
+                    animator->SetAnimation("idle");
+                else if (currentAnimation == "walkingLeft")
+                    animator->SetAnimation("idleLeft");
+            } else {
+                Vec2 direction = task.pos;
+                direction = direction.normalize();
+                speed = direction * linearSpeed;
 
-            associated.box = associated.box + (speed * dt);
+                associated.box = associated.box + (speed * dt);
+            }
         } else if (task.type == Command::SHOOT) {
             Component* component = gun.lock()->GetComponent("Gun");
             Gun* gunCpt = dynamic_cast<Gun*>(component);
@@ -66,19 +78,15 @@ void Character::Update(float dt) {
         }
 
         if (hp <= 0 && !dead) {
-            Component* component = associated.GetComponent("Animator");
-            Animator* animator = dynamic_cast<Animator*>(component);
             animator->SetAnimation("dead");
             dead = true;
             deathTimer.Restart();
         }
 
         if (task.type == Command::MOVE && hp > 0) {
-            Component* component = associated.GetComponent("Animator");
-            Animator* animator = dynamic_cast<Animator*>(component);
             if (task.pos.GetX() < 0) {
                 animator->SetAnimation("walkingLeft");
-            } else {
+            } else if (task.pos.GetX() > 0 || task.pos.GetY() != 0) {
                 animator->SetAnimation("walkingRight");
             }
         }
@@ -86,12 +94,6 @@ void Character::Update(float dt) {
         deathTimer.Update(dt);
         if (dead && deathTimer.Get() > 5) {
             associated.RequestDelete();
-        }
-
-        if (task.type != Command::MOVE) {
-            Component* component = associated.GetComponent("Animator");
-            Animator* animator = dynamic_cast<Animator*>(component);
-            animator->SetAnimation("idle");
         }
     }
 }

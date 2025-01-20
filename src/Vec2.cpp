@@ -74,3 +74,10 @@ bool Vec2::operator!=(const Vec2& vector2){
     return true;
 }
 
+bool Vec2::operator==(const Vec2& vector2) {
+    if (this->GetX() == vector2.GetX() && this->GetY() == vector2.GetY()) {
+        return true;
+    }
+    return false;
+}
+

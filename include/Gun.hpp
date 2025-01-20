@@ -18,6 +18,7 @@ private:
     weak_ptr<GameObject> character;
     float angle;
     bool reloaded;
+    bool reloading;
 
 public:
     Gun(GameObject& associated, weak_ptr<GameObject> character);

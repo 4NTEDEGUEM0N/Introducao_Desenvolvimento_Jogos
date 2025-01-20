@@ -66,3 +66,7 @@ void Animator::AddAnimation(string name, Animation anim) {
         animations[name] = anim;
     }
 }
+
+string Animator::GetAnimation() {
+    return currentAnimation;
+}
