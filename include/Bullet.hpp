@@ -12,12 +12,14 @@ private:
     int damage;
 
 public:
-    Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance);
+    Bullet(GameObject& associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer);
     void Update(float dt);
     void Render();
     bool Is(string type);
     int GetDamage();
     void NotifyCollision(GameObject &other);
+
+    bool targetsPlayer;
 };
 
 #endif //BULLET_HPP

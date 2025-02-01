@@ -5,8 +5,9 @@
 #include "../include/SpriteRenderer.hpp"
 #include "../include/GameObject.hpp"
 #include "../include/Collider.hpp"
+#include "../include/Gun.hpp"
 
-Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance) : Component(associated) {
+Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance, bool targetsPlayer) : Component(associated) {
     SpriteRenderer* spriteRenderer = new SpriteRenderer(associated, "../Recursos/img/Bullet.png");
     associated.angleDeg = (angle * 180 / M_PI) + 90;
     associated.AddComponent(spriteRenderer);
@@ -17,6 +18,8 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
 
     Collider* collider = new Collider(associated);
     associated.AddComponent(collider);
+
+    this->targetsPlayer = targetsPlayer;
 }
 
 void Bullet::Update(float dt) {
@@ -41,6 +44,9 @@ int Bullet::GetDamage() {
 void Bullet::NotifyCollision(GameObject &other) {
     if (other.GetComponent("Zombie") != nullptr) {
         associated.RequestDelete();
+    } else if (other.GetComponent("Character") != nullptr) {
+        if (targetsPlayer)
+            associated.RequestDelete();
     }
 }
 

@@ -7,6 +7,7 @@
 #include "../include/Bullet.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Character.hpp"
 #include "../include/Game.hpp"
 
 Gun::Gun(GameObject& associated, weak_ptr<GameObject> character) : Component(associated),
@@ -114,7 +115,13 @@ void Gun::Shot(Vec2 target) {
     State& state = Game::GetInstance().GetState();
     state.AddObject(bulletObject);
 
-    Bullet* bullet = new Bullet(*bulletObject, angle, 1000, 25, 1000);
+    Character* gunCharacter = dynamic_cast<Character*>(character.lock()->GetComponent("Character"));
+    Character* associatedCharacter = dynamic_cast<Character*>(associated.GetComponent("Character"));
+    bool targetsPlayer = true;
+    if (gunCharacter->player == associatedCharacter->player)
+        targetsPlayer = false;
+
+    Bullet* bullet = new Bullet(*bulletObject, angle, 1000, 25, 1000, targetsPlayer);
     bulletObject->AddComponent(bullet);
 
 

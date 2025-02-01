@@ -9,6 +9,7 @@
 #include "../include/Game.hpp"
 #include "../include/Zombie.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Bullet.hpp"
 
 Character* Character::player = nullptr;
 
@@ -21,6 +22,8 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
     deathTimer = Timer();
     dead = false;
     damageCooldown = Timer();
+    if (player == nullptr)
+        player = this;
 
     SpriteRenderer* character = new SpriteRenderer(associated, sprite, 3, 4);
     associated.AddComponent(character);
@@ -131,6 +134,19 @@ void Character::NotifyCollision(GameObject &other) {
             hp -= 25;
             damageCooldown.Restart();
             hitSound.Play(1);
+        }
+    } else if (other.GetComponent("Bullet") != nullptr) {
+        Bullet* bulletCpt = dynamic_cast<Bullet*>(other.GetComponent("Bullet"));
+        if (bulletCpt->targetsPlayer) {
+            if (this == player) {
+                hp -= 25;
+                hitSound.Play(1);
+            }
+        } else {
+            if (this != player) {
+                hp -= 25;
+                hitSound.Play(1);
+            }
         }
     }
 }
