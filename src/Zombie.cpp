@@ -2,6 +2,7 @@
 #include "../include/SpriteRenderer.hpp"
 #include "../include/Animator.hpp"
 #include "../include/Camera.hpp"
+#include "../include/Collider.hpp"
 #include <iostream>
 
 #include "../include/InputManager.hpp"
@@ -20,6 +21,9 @@ Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound
     animator->AddAnimation("hit", Animation(4, 4, 0));
     animator->SetAnimation("walking");
     associated.AddComponent(animator);
+
+    Collider* collider = new Collider(associated);
+    associated.AddComponent(collider);
 
 
 }
@@ -75,4 +79,11 @@ void Zombie::Render() {}
 
 bool Zombie::Is(string type) {
     return type == "Zombie";
+}
+
+void Zombie::NotifyCollision(GameObject &other) {
+    if (other.GetComponent("Bullet") != nullptr) {
+        hitSound.Play(1);
+        Damage(25);
+    }
 }

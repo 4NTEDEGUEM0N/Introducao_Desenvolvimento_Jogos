@@ -17,6 +17,7 @@ public:
     void Render();
     bool Is(string type);
     int GetDamage();
+    void NotifyCollision(GameObject &other);
 };
 
 #endif //BULLET_HPP

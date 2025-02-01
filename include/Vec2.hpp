@@ -15,7 +15,7 @@ public:
     float GetY() const;
     Vec2 operator+(const Vec2& vector2);
     Vec2 operator-(const Vec2& vector2);
-    Vec2 operator*(float scalar);
+    Vec2 operator*(float scalar) const;
     float magnitude();
     Vec2 normalize();
     static float distance(Vec2& vector1, Vec2& vector2);

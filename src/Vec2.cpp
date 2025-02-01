@@ -24,7 +24,7 @@ Vec2 Vec2::operator-(const Vec2& vector2) {
     return Vec2(X - vector2.GetX(), Y - vector2.GetY());
 }
 
-Vec2 Vec2::operator*(float scalar) {
+Vec2 Vec2::operator*(float scalar) const {
     return Vec2(X * scalar, Y * scalar);
 }
 

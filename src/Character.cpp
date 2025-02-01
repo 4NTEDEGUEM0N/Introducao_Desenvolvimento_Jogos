@@ -4,12 +4,15 @@
 
 #include "../include/SpriteRenderer.hpp"
 #include "../include/Animator.hpp"
+#include "../include/Collider.hpp"
 #include "../include/Gun.hpp"
 #include "../include/Game.hpp"
+#include "../include/Zombie.hpp"
+#include "../include/Camera.hpp"
 
 Character* Character::player = nullptr;
 
-Character::Character(GameObject& associated, string sprite) : Component(associated) {
+Character::Character(GameObject& associated, string sprite) : Component(associated), deathSound("../Recursos/audio/Dead.wav"), hitSound("../Recursos/audio/Hit1.wav") {
     gun.reset();
     taskQueue = queue<Command>();
     speed = Vec2(0, 0);
@@ -17,6 +20,7 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
     hp = 100;
     deathTimer = Timer();
     dead = false;
+    damageCooldown = Timer();
 
     SpriteRenderer* character = new SpriteRenderer(associated, sprite, 3, 4);
     associated.AddComponent(character);
@@ -30,6 +34,9 @@ Character::Character(GameObject& associated, string sprite) : Component(associat
 
     animator->SetAnimation("idle");
     associated.AddComponent(animator);
+
+    Collider* collider = new Collider(associated);
+    associated.AddComponent(collider);
 }
 
 Character::~Character() {
@@ -80,7 +87,12 @@ void Character::Update(float dt) {
         if (hp <= 0 && !dead) {
             animator->SetAnimation("dead");
             dead = true;
+            deathSound.Play(1);
             deathTimer.Restart();
+            Camera::Unfollow();
+            Component* playerController = associated.GetComponent("PlayerController");
+            if (playerController != nullptr)
+                associated.RemoveComponent(playerController);
         }
 
         if (task.type == Command::MOVE && hp > 0) {
@@ -90,11 +102,11 @@ void Character::Update(float dt) {
                 animator->SetAnimation("walkingRight");
             }
         }
-
-        deathTimer.Update(dt);
-        if (dead && deathTimer.Get() > 5) {
-            associated.RequestDelete();
-        }
+        damageCooldown.Update(dt);
+    }
+    deathTimer.Update(dt);
+    if (dead && deathTimer.Get() > 5) {
+        associated.RequestDelete();
     }
 }
 
@@ -112,5 +124,16 @@ Character::Command::Command(CommandType type, float x, float y) {
     this->type = type;
     this->pos = Vec2(x, y);
 }
+
+void Character::NotifyCollision(GameObject &other) {
+    if (other.GetComponent("Zombie") != nullptr) {
+        if (damageCooldown.Get() > 1 && hp > 0) {
+            hp -= 25;
+            damageCooldown.Restart();
+            hitSound.Play(1);
+        }
+    }
+}
+
 
 

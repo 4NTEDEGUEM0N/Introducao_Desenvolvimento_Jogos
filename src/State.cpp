@@ -9,7 +9,10 @@
 #include "../include/Camera.hpp"
 #include "../include/Character.hpp"
 #include "../include/PlayerController.hpp"
+#include "../include/Collider.hpp"
+#include "../include/Collision.hpp"
 #include <algorithm>
+
 
 
 State::State() {
@@ -61,6 +64,32 @@ void State::Update(float dt) {
         if (objectArray[i]->IsDead()) {
             objectArray.erase(objectArray.begin() + i);
             i--;
+        }
+    }
+
+    for(int i = 0; i < objectArray.size(); i++) {
+        Collider* colliderA = dynamic_cast<Collider*>(objectArray[i]->GetComponent("Collider"));
+        if (colliderA != nullptr) {
+            for (int j = i + 1; j < objectArray.size(); j++) {
+                Collider* colliderB = dynamic_cast<Collider*>(objectArray[j]->GetComponent("Collider"));
+                if (colliderB != nullptr) {
+                    bool collision = Collision::IsColliding(colliderA->box, colliderB->box, (objectArray[i]->angleDeg * M_PI)/180, (objectArray[j]->angleDeg * M_PI)/180);
+                    if (collision) {
+                        /*cerr << "BOX A" << endl;
+                        cerr << "X: " << colliderA->box.GetX() << endl;
+                        cerr << "Y: " << colliderA->box.GetY() << endl;
+                        cerr << "W: " << colliderA->box.GetW() << endl;
+                        cerr << "H: " << colliderA->box.GetH() << endl;
+                        cerr << "BOX B" << endl;
+                        cerr << "X: " << colliderB->box.GetX() << endl;
+                        cerr << "Y: " << colliderB->box.GetY() << endl;
+                        cerr << "W: " << colliderB->box.GetW() << endl;
+                        cerr << "H: " << colliderB->box.GetH() << endl; */
+                        objectArray[i]->NotifyCollision(*objectArray[j]);
+                        objectArray[j]->NotifyCollision(*objectArray[i]);
+                    }
+                }
+            }
         }
     }
 

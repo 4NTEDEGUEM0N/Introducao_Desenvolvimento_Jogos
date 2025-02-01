@@ -6,6 +6,7 @@
 #include "Component.hpp"
 #include "Timer.hpp"
 #include "Vec2.hpp"
+#include "Sound.hpp"
 
 using namespace std;
 
@@ -32,6 +33,9 @@ private:
     int hp;
     Timer deathTimer;
     bool dead;
+    Timer damageCooldown;
+    Sound deathSound;
+    Sound hitSound;
 
 public:
     static Character* player;
@@ -42,6 +46,7 @@ public:
     void Update(float dt);
     void Render();
     bool Is(string type);
+    void NotifyCollision(GameObject &other);
 
     void Issue(Command task);
 

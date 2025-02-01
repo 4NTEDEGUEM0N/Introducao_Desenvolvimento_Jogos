@@ -57,6 +57,9 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/PlayerController.cpp
         include/Bullet.hpp
         src/Bullet.cpp
+        include/Collider.hpp
+        src/Collider.cpp
+        include/Collision.hpp
 )
 
 target_link_libraries(Introducao_Desenvolvimento_Jogos

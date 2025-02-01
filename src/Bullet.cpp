@@ -4,6 +4,7 @@
 
 #include "../include/SpriteRenderer.hpp"
 #include "../include/GameObject.hpp"
+#include "../include/Collider.hpp"
 
 Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, float maxDistance) : Component(associated) {
     SpriteRenderer* spriteRenderer = new SpriteRenderer(associated, "../Recursos/img/Bullet.png");
@@ -13,6 +14,9 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
     this->speed = Vec2(1, 0).rotate(angle) * speed;
     distanceLeft = maxDistance;
     this->damage = damage;
+
+    Collider* collider = new Collider(associated);
+    associated.AddComponent(collider);
 }
 
 void Bullet::Update(float dt) {
@@ -33,3 +37,10 @@ bool Bullet::Is(string type) {
 int Bullet::GetDamage() {
     return damage;
 }
+
+void Bullet::NotifyCollision(GameObject &other) {
+    if (other.GetComponent("Zombie") != nullptr) {
+        associated.RequestDelete();
+    }
+}
+
