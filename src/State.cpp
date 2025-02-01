@@ -108,6 +108,10 @@ void State::Update(float dt) {
         zombieObject->AddComponent(zmb);
     }
 
+    if (InputManager::GetInstance().KeyPress(SDLK_c)) {
+        Collider::showCollision = !Collider::showCollision;
+    }
+
     Camera::Update(dt);
 }
 

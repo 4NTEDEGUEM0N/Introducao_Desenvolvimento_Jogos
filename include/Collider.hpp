@@ -20,6 +20,8 @@ public:
     bool Is(string type);
     void SetScale(Vec2 scale);
     void SetOffset(Vec2 offset);
+
+    static bool showCollision;
 };
 
 #endif //COLLIDER_HPP

@@ -8,6 +8,7 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
+add_compile_definitions(DEBUG)
 
 add_executable(Introducao_Desenvolvimento_Jogos
         main.cpp
@@ -61,7 +62,6 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/Collider.cpp
         include/Collision.hpp
 )
-
 target_link_libraries(Introducao_Desenvolvimento_Jogos
         SDL2::SDL2
         SDL2_image::SDL2_image
