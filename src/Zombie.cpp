@@ -21,8 +21,10 @@ Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound
 
     Animator *animator = new Animator(associated);
     animator->AddAnimation("walking", Animation(0, 3, 0.2));
+    animator->AddAnimation("walkingLeft", Animation(0, 3, 0.2, SDL_FLIP_HORIZONTAL));
     animator->AddAnimation("dead", Animation(5, 5, 0));
     animator->AddAnimation("hit", Animation(4, 4, 0));
+    animator->AddAnimation("hitLeft", Animation(4, 4, 0, SDL_FLIP_HORIZONTAL));
     animator->SetAnimation("walking");
     associated.AddComponent(animator);
 
@@ -50,12 +52,15 @@ void Zombie::Damage(int damage) {
         hitTimer.Restart();
         Component* component = associated.GetComponent("Animator");
         Animator* animator = dynamic_cast<Animator*>(component);
-        animator->SetAnimation("hit");
+        if (animator->GetAnimation() == "walking")
+            animator->SetAnimation("hit");
+        else
+            animator->SetAnimation("hitLeft");
     }
 }
 
 void Zombie::Update(float dt) {
-    if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON)) {
+    /*if (InputManager::GetInstance().MousePress(LEFT_MOUSE_BUTTON)) {
         int mouseX = InputManager::GetInstance().GetMouseX();
         int mouseY = InputManager::GetInstance().GetMouseY();
         float cameraX = Camera::pos.GetX();
@@ -66,7 +71,8 @@ void Zombie::Update(float dt) {
             hitSound.Play(1);
             Damage(25);
         }
-    }
+    }*/
+
     hitTimer.Update(dt);
     if (hit && hitTimer.Get() > 0.5 && hitpoints > 0) {
         hit = false;
@@ -83,6 +89,14 @@ void Zombie::Update(float dt) {
     if (Character::player != nullptr && hitpoints > 0) {
         Vec2 playerPos = Character::player->GetPosition();
         Vec2 direction = playerPos - associated.box.center();
+        Component* component = associated.GetComponent("Animator");
+        Animator* animator = dynamic_cast<Animator*>(component);
+        if (hitTimer.Get() > 0.5) {
+            if (direction.GetX() < 0)
+            animator->SetAnimation("walkingLeft");
+        else
+            animator->SetAnimation("walking");
+        }
 
         associated.box = associated.box + direction.normalize() * 100 * dt;
     }

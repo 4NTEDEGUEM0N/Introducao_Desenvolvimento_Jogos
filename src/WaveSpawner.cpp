@@ -2,6 +2,8 @@
 #include "../include/Game.hpp"
 #include "../include/State.hpp"
 #include "../include/Zombie.hpp"
+#include "../include/Character.hpp"
+#include "../include/AIController.hpp"
 #include "iostream"
 
 WaveSpawner::WaveSpawner(GameObject &associated): Component(associated) {
@@ -34,6 +36,18 @@ void WaveSpawner::Update(float dt) {
         waves.erase(waves.begin());
         zombieCounter = 0;
         currentWave += 1;
+
+        State& state = Game::GetInstance().GetState();
+        int waveX = 576 + rand()%(1984 - 576 + 1);
+        int waveY = 448 + rand()%(2112 - 448 + 1);
+        GameObject* aiObject = new GameObject();
+        aiObject->box.X = waveX;
+        aiObject->box.Y = waveY;
+        state.AddObject(aiObject);
+        Character* aiCharacter = new Character(*aiObject, "../Recursos/img/NPC.png");
+        aiObject->AddComponent(aiCharacter);
+        AIController* aiController = new AIController(*aiObject);
+        aiObject->AddComponent(aiController);
     }
 
     if (waves.begin() == waves.end()) {

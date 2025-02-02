@@ -13,6 +13,7 @@
 #include "../include/Collision.hpp"
 #include <algorithm>
 
+#include "../include/AIController.hpp"
 #include "../include/WaveSpawner.hpp"
 
 
@@ -37,20 +38,29 @@ State::State() {
     music.Open("../Recursos/audio/BGM.wav");
     music.Play();
 
-    GameObject* characterObject = new GameObject();
-    characterObject->box.X = 1280;
-    characterObject->box.Y = 1280;
-    AddObject(characterObject);
-    Character* character = new Character(*characterObject, "../Recursos/img/Player.png");
-    Camera::Follow(characterObject);
-    characterObject->AddComponent(character);
-    PlayerController* playerController = new PlayerController(*characterObject);
-    characterObject->AddComponent(playerController);
+    GameObject* playerObject = new GameObject();
+    playerObject->box.X = 1280;
+    playerObject->box.Y = 1280;
+    AddObject(playerObject);
+    Character* playerCharacter = new Character(*playerObject, "../Recursos/img/Player.png");
+    Camera::Follow(playerObject);
+    playerObject->AddComponent(playerCharacter);
+    PlayerController* playerController = new PlayerController(*playerObject);
+    playerObject->AddComponent(playerController);
 
     GameObject* waveObject = new GameObject();
     AddObject(waveObject);
     WaveSpawner* waveSpawner = new WaveSpawner(*waveObject);
     waveObject->AddComponent(waveSpawner);
+
+    GameObject* aiObject = new GameObject();
+    aiObject->box.X = 576 + rand()%(1984 - 576 + 1);
+    aiObject->box.Y = 448 + rand()%(2112 - 448 + 1);
+    AddObject(aiObject);
+    Character* aiCharacter = new Character(*aiObject, "../Recursos/img/NPC.png");
+    aiObject->AddComponent(aiCharacter);
+    AIController* aiController = new AIController(*aiObject);
+    aiObject->AddComponent(aiController);
 
 }
 

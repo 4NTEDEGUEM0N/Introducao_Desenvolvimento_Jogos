@@ -109,17 +109,32 @@ void Gun::Shot(Vec2 target) {
     direction = direction.normalize();
     angle = direction.angle();
 
+    State& state = Game::GetInstance().GetState();
+
+    Character* gunCharacter = dynamic_cast<Character*>(character.lock()->GetComponent("Character"));
+    bool targetsPlayer = true;
+    if (gunCharacter == Character::player) {
+        targetsPlayer = false;
+
+        GameObject* bulletObject2 = new GameObject();
+        bulletObject2->box.X = associated.box.X + 35;
+        bulletObject2->box.Y = associated.box.Y;
+        state.AddObject(bulletObject2);
+        Bullet* bullet2 = new Bullet(*bulletObject2, angle + 0.25f, 1000, 25, 1000, targetsPlayer);
+        bulletObject2->AddComponent(bullet2);
+
+        GameObject* bulletObject3 = new GameObject();
+        bulletObject3->box.X = associated.box.X + 35;
+        bulletObject3->box.Y = associated.box.Y;
+        state.AddObject(bulletObject3);
+        Bullet* bullet3 = new Bullet(*bulletObject3, angle - 0.25f, 1000, 25, 1000, targetsPlayer);
+        bulletObject3->AddComponent(bullet3);
+    }
+
     GameObject* bulletObject = new GameObject();
     bulletObject->box.X = associated.box.X + 35;
     bulletObject->box.Y = associated.box.Y;
-    State& state = Game::GetInstance().GetState();
     state.AddObject(bulletObject);
-
-    Character* gunCharacter = dynamic_cast<Character*>(character.lock()->GetComponent("Character"));
-    Character* associatedCharacter = dynamic_cast<Character*>(associated.GetComponent("Character"));
-    bool targetsPlayer = true;
-    if (gunCharacter->player == associatedCharacter->player)
-        targetsPlayer = false;
 
     Bullet* bullet = new Bullet(*bulletObject, angle, 1000, 25, 1000, targetsPlayer);
     bulletObject->AddComponent(bullet);

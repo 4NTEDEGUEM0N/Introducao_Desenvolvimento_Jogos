@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "../include/Character.hpp"
 #include "../include/SpriteRenderer.hpp"
 #include "../include/GameObject.hpp"
 #include "../include/Collider.hpp"
@@ -45,8 +46,11 @@ void Bullet::NotifyCollision(GameObject &other) {
     if (other.GetComponent("Zombie") != nullptr) {
         associated.RequestDelete();
     } else if (other.GetComponent("Character") != nullptr) {
-        if (targetsPlayer)
+        if (targetsPlayer && other.GetComponent("Character") == Character::player) {
             associated.RequestDelete();
+        } else if (!targetsPlayer && other.GetComponent("Character") != Character::player) {
+            associated.RequestDelete();
+        }
     }
 }
 

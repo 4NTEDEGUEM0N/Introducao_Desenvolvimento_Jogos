@@ -92,10 +92,16 @@ void Character::Update(float dt) {
             dead = true;
             deathSound.Play(1);
             deathTimer.Restart();
-            Camera::Unfollow();
-            Component* playerController = associated.GetComponent("PlayerController");
-            if (playerController != nullptr)
-                associated.RemoveComponent(playerController);
+            if (this == player) {
+                Camera::Unfollow();
+                Component* playerController = associated.GetComponent("PlayerController");
+                if (playerController != nullptr)
+                    associated.RemoveComponent(playerController);
+            } else {
+                Component* aiController = associated.GetComponent("AIController");
+                if (aiController != nullptr)
+                    associated.RemoveComponent(aiController);
+            }
         }
 
         if (task.type == Command::MOVE && hp > 0) {
@@ -131,9 +137,11 @@ Character::Command::Command(CommandType type, float x, float y) {
 void Character::NotifyCollision(GameObject &other) {
     if (other.GetComponent("Zombie") != nullptr) {
         if (damageCooldown.Get() > 1 && hp > 0) {
-            hp -= 25;
-            damageCooldown.Restart();
-            hitSound.Play(1);
+            if (this == player) {
+                hp -= 25;
+                damageCooldown.Restart();
+                hitSound.Play(1);
+            }
         }
     } else if (other.GetComponent("Bullet") != nullptr) {
         Bullet* bulletCpt = dynamic_cast<Bullet*>(other.GetComponent("Bullet"));
