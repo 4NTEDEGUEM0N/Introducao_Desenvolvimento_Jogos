@@ -23,7 +23,7 @@ void AIController::Update(float dt) {
     if (state == AIState::RESTING) {
         restTimer.Update(dt);
         character->Issue(Character::Command(Character::Command::MOVE, 0, 0));
-        if (restTimer.Get() > 5) {
+        if (restTimer.Get() > 2.5) {
             state = AIState::MOVING;
             destination = Character::player->GetPosition();
             Vec2 direction = destination - associated.box.center();
