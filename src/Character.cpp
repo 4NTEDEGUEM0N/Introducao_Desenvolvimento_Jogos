@@ -101,10 +101,10 @@ void Character::Update(float dt) {
                 Component* aiController = associated.GetComponent("AIController");
                 if (aiController != nullptr)
                     associated.RemoveComponent(aiController);
-                Component* collider = associated.GetComponent("Collider");
-                if (collider != nullptr)
-                    associated.RemoveComponent(collider);
             }
+            Component* collider = associated.GetComponent("Collider");
+            if (collider != nullptr)
+                associated.RemoveComponent(collider);
         }
 
         if (task.type == Command::MOVE && hp > 0) {
