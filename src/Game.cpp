@@ -61,6 +61,8 @@ Game::Game(string title, int width, int height){
         cerr << "Erro - SDL_CreateRenderer: "<< SDL_GetError() << endl;
         exit(1);
     }
+
+    srand(time(NULL));
 }
 
 Game::~Game(){

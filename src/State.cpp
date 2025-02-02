@@ -13,6 +13,7 @@
 #include "../include/Collision.hpp"
 #include <algorithm>
 
+#include "../include/WaveSpawner.hpp"
 
 
 State::State() {
@@ -45,6 +46,11 @@ State::State() {
     characterObject->AddComponent(character);
     PlayerController* playerController = new PlayerController(*characterObject);
     characterObject->AddComponent(playerController);
+
+    GameObject* waveObject = new GameObject();
+    AddObject(waveObject);
+    WaveSpawner* waveSpawner = new WaveSpawner(*waveObject);
+    waveObject->AddComponent(waveSpawner);
 
 }
 

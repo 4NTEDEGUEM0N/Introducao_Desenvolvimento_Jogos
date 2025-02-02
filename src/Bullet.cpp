@@ -16,7 +16,7 @@ Bullet::Bullet(GameObject &associated, float angle, float speed, int damage, flo
     distanceLeft = maxDistance;
     this->damage = damage;
 
-    Collider* collider = new Collider(associated);
+    Collider* collider = new Collider(associated, {1,1}, {0,-15});
     associated.AddComponent(collider);
 
     this->targetsPlayer = targetsPlayer;

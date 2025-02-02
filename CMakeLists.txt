@@ -61,6 +61,10 @@ add_executable(Introducao_Desenvolvimento_Jogos
         include/Collider.hpp
         src/Collider.cpp
         include/Collision.hpp
+        include/WaveSpawner.hpp
+        include/Wave.hpp
+        src/Wave.cpp
+        src/WaveSpawner.cpp
 )
 target_link_libraries(Introducao_Desenvolvimento_Jogos
         SDL2::SDL2

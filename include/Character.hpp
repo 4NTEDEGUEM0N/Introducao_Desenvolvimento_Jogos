@@ -47,8 +47,8 @@ public:
     void Render();
     bool Is(string type);
     void NotifyCollision(GameObject &other);
-
     void Issue(Command task);
+    Vec2 GetPosition() const;
 
 
 };

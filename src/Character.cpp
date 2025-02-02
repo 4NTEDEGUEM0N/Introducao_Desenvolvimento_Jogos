@@ -151,5 +151,10 @@ void Character::NotifyCollision(GameObject &other) {
     }
 }
 
+Vec2 Character::GetPosition() const {
+    return associated.box.center();
+}
+
+
 
 

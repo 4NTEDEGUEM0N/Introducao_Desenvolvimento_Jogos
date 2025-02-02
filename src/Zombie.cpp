@@ -3,14 +3,18 @@
 #include "../include/Animator.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Collider.hpp"
+#include "../include/Character.hpp"
 #include <iostream>
 
 #include "../include/InputManager.hpp"
+
+int Zombie::zombieCounter = 0;
 
 Zombie::Zombie(GameObject& associated, int hp):Component(associated), deathSound("../Recursos/audio/Dead.wav"), hitSound("../Recursos/audio/Hit0.wav") {
     hitpoints = hp;
     hasPlayedDeathSound = false;
     hit = false;
+    zombieCounter += 1;
 
     SpriteRenderer* zmb = new SpriteRenderer(associated, "../Recursos/img/Enemy.png", 3,2);
     associated.AddComponent(zmb);
@@ -38,6 +42,8 @@ void Zombie::Damage(int damage) {
         hasPlayedDeathSound = true;
         deathSound.Play(1);
         deathTimer.Restart();
+
+        associated.RemoveComponent(associated.GetComponent("Collider"));
 
     } else if (hitpoints > 0 && !hasPlayedDeathSound) {
         hit = true;
@@ -73,6 +79,13 @@ void Zombie::Update(float dt) {
     if (hitpoints <= 0 && deathTimer.Get() > 5) {
         associated.RequestDelete();
     }
+
+    if (Character::player != nullptr && hitpoints > 0) {
+        Vec2 playerPos = Character::player->GetPosition();
+        Vec2 direction = playerPos - associated.box.center();
+
+        associated.box = associated.box + direction.normalize() * 100 * dt;
+    }
 }
 
 void Zombie::Render() {}
@@ -87,3 +100,8 @@ void Zombie::NotifyCollision(GameObject &other) {
         Damage(25);
     }
 }
+
+Zombie::~Zombie() {
+    zombieCounter -= 1;
+}
+

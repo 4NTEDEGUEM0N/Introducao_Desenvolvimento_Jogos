@@ -17,11 +17,14 @@ private:
 
 public:
     Zombie(GameObject& associated, int hp);
+    ~Zombie();
     void Damage(int damage);
     void Update(float dt);
     void Render();
     bool Is(string type);
     void NotifyCollision(GameObject &other);
+
+    static int zombieCounter;
 };
 
 #endif //ZOMBIE_HPP
