@@ -16,6 +16,10 @@ AIController::AIController(GameObject &associated): Component(associated) {
 void AIController::Update(float dt) {
     Component* component = associated.GetComponent("Character");
     Character* character = dynamic_cast<Character*>(component);
+    if (Character::player == nullptr) {
+        state = AIState::RESTING;
+        return;
+    }
     if (state == AIState::RESTING) {
         restTimer.Update(dt);
         character->Issue(Character::Command(Character::Command::MOVE, 0, 0));
