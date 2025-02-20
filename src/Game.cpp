@@ -24,6 +24,7 @@ Game::Game(string title, int width, int height){
         exit(1);
     }
     instance = this;
+    storedState = nullptr;
 
     int sdl_init = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER);
     if (sdl_init != 0){
@@ -66,6 +67,14 @@ Game::Game(string title, int width, int height){
 }
 
 Game::~Game(){
+    if (storedState != nullptr) {
+        delete storedState;
+        storedState = nullptr;
+    }
+    while (!stateStack.empty()) {
+        stateStack.pop();
+    }
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     Mix_CloseAudio();
@@ -74,27 +83,35 @@ Game::~Game(){
     SDL_Quit();
 }
 
-State& Game::GetState(){
-    return *state;
-}
-
 SDL_Renderer* Game::GetRenderer(){
     return renderer;
 }
 
 void Game::Run(){
-    state = new State();
-    state->Start();
-    while(!state->QuitRequested()){
-        CalculateDeltaTime();
-        InputManager::GetInstance().Update();
-        state->Update(dt);
-        state->Render();
-        SDL_RenderPresent(renderer);
-        SDL_Delay(15);
+    if (storedState != nullptr) {
+        stateStack.push(unique_ptr<State>(storedState));
+        stateStack.top()->Start();
+        storedState = nullptr;
+        while(!stateStack.empty() && !stateStack.top()->QuitRequested()){
+            if (stateStack.top()->PopRequested()) {
+                stateStack.pop();
+                if (!stateStack.empty())
+                    stateStack.top()->Resume();
+            }
+            if (storedState != nullptr) {
+                stateStack.top()->Pause();
+                stateStack.push(unique_ptr<State>(storedState));
+                stateStack.top()->Start();
+                storedState = nullptr;
+            }
+            CalculateDeltaTime();
+            InputManager::GetInstance().Update();
+            stateStack.top()->Update(dt);
+            stateStack.top()->Render();
+            SDL_RenderPresent(renderer);
+            SDL_Delay(15);
+        }
     }
-    delete state;
-    state = nullptr;
     Resources::ClearImages();
     Resources::ClearMusics();
     Resources::ClearSounds();
@@ -116,4 +133,16 @@ void Game::CalculateDeltaTime(){
 float Game::GetDeltaTime(){
     return dt;
 }
+
+State& Game::GetState() {
+    if (stateStack.empty()) {
+        throw runtime_error("stateStack vazia");
+    }
+    return *stateStack.top();
+}
+
+void Game::Push(State* state) {
+    storedState = state;
+}
+
 

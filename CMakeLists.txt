@@ -14,8 +14,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         main.cpp
         include/Game.hpp
         src/Game.cpp
-        include/State.hpp
-        src/State.cpp
+        include/StageState.hpp
+        src/StageState.cpp
         include/Sprite.hpp
         src/Sprite.cpp
         include/Music.hpp
@@ -67,6 +67,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/WaveSpawner.cpp
         include/AIController.hpp
         src/AIController.cpp
+        include/State.hpp
+        src/State.cpp
 )
 target_link_libraries(Introducao_Desenvolvimento_Jogos
         SDL2::SDL2
