@@ -78,6 +78,10 @@ Game::~Game(){
         stateStack.pop();
     }
 
+    Resources::ClearImages();
+    Resources::ClearMusics();
+    Resources::ClearSounds();
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     Mix_CloseAudio();
@@ -115,9 +119,6 @@ void Game::Run(){
             SDL_Delay(15);
         }
     }
-    Resources::ClearImages();
-    Resources::ClearMusics();
-    Resources::ClearSounds();
 }
 
 void Game::Quit() {
