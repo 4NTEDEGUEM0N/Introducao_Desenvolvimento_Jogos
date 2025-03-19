@@ -14,7 +14,9 @@
 #include <algorithm>
 
 #include "../include/AIController.hpp"
+#include "../include/TitleState.hpp"
 #include "../include/WaveSpawner.hpp"
+#include "../include/Game.hpp"
 
 
 StageState::StageState() {
@@ -70,7 +72,10 @@ void StageState::Update(float dt) {
     UpdateArray(dt);
 
     if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)) {
-        quitRequested = true;
+        /*Game& game = Game::GetInstance();
+        TitleState* titleState = new TitleState();
+        game.Push(titleState);*/
+        popRequested = true;
     } else {
         quitRequested = InputManager::GetInstance().QuitRequested();
     }
