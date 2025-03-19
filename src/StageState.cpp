@@ -50,14 +50,14 @@ StageState::StageState() {
     WaveSpawner* waveSpawner = new WaveSpawner(*waveObject);
     waveObject->AddComponent(waveSpawner);
 
-    /*GameObject* aiObject = new GameObject();
+    GameObject* aiObject = new GameObject();
     aiObject->box.X = 576 + rand()%(1984 - 576 + 1);
     aiObject->box.Y = 448 + rand()%(2112 - 448 + 1);
     AddObject(aiObject);
     Character* aiCharacter = new Character(*aiObject, "../Recursos/img/NPC.png");
     aiObject->AddComponent(aiCharacter);
     AIController* aiController = new AIController(*aiObject);
-    aiObject->AddComponent(aiController); */
+    aiObject->AddComponent(aiController);
 
 }
 
