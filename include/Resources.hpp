@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ private:
     static unordered_map<string, shared_ptr<SDL_Texture>> imageTable;
     static unordered_map<string, Mix_Music*> musicTable;
     static unordered_map<string, Mix_Chunk*> soundTable;
+    static unordered_map<string, shared_ptr<TTF_Font>> fontTable;
 
 public:
     static shared_ptr<SDL_Texture> GetImage(string file);
@@ -21,6 +23,8 @@ public:
     static void ClearMusics();
     static Mix_Chunk* GetSound(string file);
     static void ClearSounds();
+    static shared_ptr<TTF_Font> GetFont(string file, int size);
+    static void ClearFonts();
 };
 
 

@@ -71,6 +71,8 @@ add_executable(Introducao_Desenvolvimento_Jogos
         src/State.cpp
         include/TitleState.hpp
         src/TitleState.cpp
+        include/Text.hpp
+        src/Text.cpp
 )
 target_link_libraries(Introducao_Desenvolvimento_Jogos
         SDL2::SDL2

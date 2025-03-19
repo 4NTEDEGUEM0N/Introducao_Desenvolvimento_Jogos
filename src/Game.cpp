@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <SDL_ttf.h>
 
 
 #include "../include/Resources.hpp"
@@ -54,6 +55,12 @@ Game::Game(string title, int width, int height){
     }
     Mix_AllocateChannels(32);
 
+    int tff_init = TTF_Init();
+    if (tff_init != 0) {
+        cerr << "Erro - TTF_Init: "<< SDL_GetError() << endl;
+        exit(1);
+    }
+
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
     if (window == nullptr) {
         cerr << "Erro - SDL_CreateWindow: "<< SDL_GetError() << endl;
@@ -81,9 +88,11 @@ Game::~Game(){
     Resources::ClearImages();
     Resources::ClearMusics();
     Resources::ClearSounds();
+    Resources::ClearFonts();
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     Mix_CloseAudio();
     Mix_Quit();
     IMG_Quit();
@@ -103,6 +112,7 @@ void Game::Run(){
             if (stateStack.top()->PopRequested()) {
                 stateStack.pop();
                 Resources::ClearImages();
+                Resources::ClearFonts();
                 if (!stateStack.empty())
                     stateStack.top()->Resume();
             }

@@ -9,6 +9,7 @@ using namespace std;
 unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
+unordered_map<string, shared_ptr<TTF_Font>> Resources::fontTable;
 
 void SDL_Texture_Deleter(SDL_Texture* texture) {
     if (texture != nullptr) {
@@ -87,5 +88,37 @@ void Resources::ClearSounds() {
         Mix_FreeChunk(it->second);
     }
     soundTable.clear();
+}
+
+void TTF_Font_Deleter(TTF_Font* font) {
+    if (font != nullptr) {
+        TTF_CloseFont(font);
+    }
+}
+shared_ptr<TTF_Font> Resources::GetFont(string file, int size) {
+    string key = file + "_" + to_string(size);
+    auto search = fontTable.find(key);
+    if (search == fontTable.end()) {
+        TTF_Font* font = TTF_OpenFont(file.c_str(), size);
+        if (font == nullptr) {
+            cerr << "Erro - TTF_OpenFont: " << SDL_GetError() << endl;
+            exit(1);
+        }
+        shared_ptr<TTF_Font> fontPtr(font, TTF_Font_Deleter);
+        fontTable[key] = fontPtr;
+        return fontTable[key];
+
+    }
+    return search->second;
+}
+
+void Resources::ClearFonts() {
+    for (auto it = fontTable.begin(); it != fontTable.end(); ) {
+        if (it->second.use_count() == 1) {
+            it = fontTable.erase(it);
+        } else {
+            it++;
+        }
+    }
 }
 

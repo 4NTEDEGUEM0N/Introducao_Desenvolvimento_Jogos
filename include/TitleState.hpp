@@ -14,6 +14,11 @@ public:
     void Start();
     void Pause();
     void Resume();
+
+private:
+    bool up;
+    int counter;
+    weak_ptr<GameObject> instructionsObject;
 };
 
 #endif //TITLESTATE_HPP
