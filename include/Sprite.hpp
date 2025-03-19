@@ -1,6 +1,7 @@
 #ifndef SPRITE_HPP
 #define SPRITE_HPP
 
+#include <memory>
 #include <string>
 #include <SDL2/SDL.h>
 
@@ -10,7 +11,7 @@ using namespace std;
 
 class Sprite {
 private:
-    SDL_Texture* texture;
+    shared_ptr<SDL_Texture> texture;
     int width;
     int height;
     SDL_Rect clipRect;

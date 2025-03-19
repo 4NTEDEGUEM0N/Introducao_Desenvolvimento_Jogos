@@ -6,32 +6,39 @@
 
 using namespace std;
 
-unordered_map<string, SDL_Texture*> Resources::imageTable;
+unordered_map<string, shared_ptr<SDL_Texture>> Resources::imageTable;
 unordered_map<string, Mix_Music*> Resources::musicTable;
 unordered_map<string, Mix_Chunk*> Resources::soundTable;
 
-SDL_Texture* Resources::GetImage(string file) {
-    SDL_Texture* texture = nullptr;
+void SDL_Texture_Deleter(SDL_Texture* texture) {
+    if (texture != nullptr) {
+        SDL_DestroyTexture(texture);
+    }
+}
+shared_ptr<SDL_Texture> Resources::GetImage(string file) {
     auto search = imageTable.find(file);
     if (search == imageTable.end()) {
-        texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
+        SDL_Texture* texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
         if (texture == nullptr) {
             cerr << "Erro - IMG_LoadTexture: " << SDL_GetError() << endl;
             exit(1);
         }
-        imageTable[file] = texture;
-    } else {
-        texture = search->second;
-    }
+        shared_ptr<SDL_Texture> texturePtr(texture, SDL_Texture_Deleter);
+        imageTable[file] = texturePtr;
+        return imageTable[file];
 
-    return texture;
+    }
+    return search->second;
 }
 
 void Resources::ClearImages() {
-    for (auto it = imageTable.begin(); it != imageTable.end(); it++) {
-        SDL_DestroyTexture(it->second);
+    for (auto it = imageTable.begin(); it != imageTable.end(); ) {
+        if (it->second.use_count() == 1) {
+            it = imageTable.erase(it);
+        } else {
+            it++;
+        }
     }
-    imageTable.clear();
 }
 
 Mix_Music* Resources::GetMusic(string file) {

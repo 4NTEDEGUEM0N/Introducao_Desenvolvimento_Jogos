@@ -102,6 +102,7 @@ void Game::Run(){
         while(!stateStack.empty() && !stateStack.top()->QuitRequested()){
             if (stateStack.top()->PopRequested()) {
                 stateStack.pop();
+                Resources::ClearImages();
                 if (!stateStack.empty())
                     stateStack.top()->Resume();
             }
