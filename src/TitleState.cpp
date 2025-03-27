@@ -7,13 +7,14 @@
 #include "../include/StageState.hpp"
 #include "../include/Game.hpp"
 #include "../include/Camera.hpp"
+#include "../include/GameData.hpp"
 #include "../include/Text.hpp"
 
 TitleState::TitleState() {
     GameObject* bgObject = new GameObject();
     AddObject(bgObject);
     SpriteRenderer* titleBg = new SpriteRenderer(*bgObject, "../Recursos/img/Title.png");
-    titleBg->SetCameraFollower(true);
+    Camera::Follow(bgObject);
     bgObject->AddComponent(titleBg);
 
     GameObject* instructionsObject = new GameObject();
@@ -39,7 +40,8 @@ void TitleState::Update(float dt) {
         Game& game = Game::GetInstance();
         StageState* stage = new StageState();
         game.Push(stage);
-        //popRequested = true;
+        GameData::ended = false;
+        popRequested = true;
     }
 
     counter++;

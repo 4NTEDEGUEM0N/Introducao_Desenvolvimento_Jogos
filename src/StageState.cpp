@@ -14,9 +14,11 @@
 #include <algorithm>
 
 #include "../include/AIController.hpp"
+#include "../include/EndState.hpp"
 #include "../include/TitleState.hpp"
 #include "../include/WaveSpawner.hpp"
 #include "../include/Game.hpp"
+#include "../include/GameData.hpp"
 
 
 StageState::StageState() {
@@ -72,25 +74,32 @@ void StageState::Update(float dt) {
     UpdateArray(dt);
 
     if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)) {
-        /*Game& game = Game::GetInstance();
+        Game& game = Game::GetInstance();
         TitleState* titleState = new TitleState();
-        game.Push(titleState);*/
+        game.Push(titleState);
         popRequested = true;
     } else {
         quitRequested = InputManager::GetInstance().QuitRequested();
     }
 
-    if (InputManager::GetInstance().KeyPress(SDLK_SPACE)) {
+    /*if (InputManager::GetInstance().KeyPress(SDLK_SPACE)) {
         GameObject* zombieObject = new GameObject();
         AddObject(zombieObject);
         Zombie* zmb = new Zombie(*zombieObject, 100);
         zombieObject->box.X = InputManager::GetInstance().GetMouseX() + Camera::pos.GetX();
         zombieObject->box.Y = InputManager::GetInstance().GetMouseY() + Camera::pos.GetY();
         zombieObject->AddComponent(zmb);
-    }
+    }*/
 
     if (InputManager::GetInstance().KeyPress(SDLK_c)) {
         Collider::showCollision = !Collider::showCollision;
+    }
+
+    if (GameData::ended) {
+        Game& game = Game::GetInstance();
+        EndState* endState = new EndState();
+        game.Push(endState);
+        popRequested = true;
     }
 
     Camera::Update(dt);

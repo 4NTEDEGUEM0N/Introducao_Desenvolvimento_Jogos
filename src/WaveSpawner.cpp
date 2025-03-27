@@ -5,6 +5,7 @@
 #include "../include/Character.hpp"
 #include "../include/AIController.hpp"
 #include "iostream"
+#include "../include/GameData.hpp"
 
 WaveSpawner::WaveSpawner(GameObject &associated): Component(associated) {
     zombieCounter = 0;
@@ -51,6 +52,8 @@ void WaveSpawner::Update(float dt) {
     }
 
     if (waves.begin() == waves.end()) {
+        GameData::ended = true;
+        GameData::playerVictory = true;
         associated.RequestDelete();
     }
 }

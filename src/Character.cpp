@@ -10,6 +10,7 @@
 #include "../include/Zombie.hpp"
 #include "../include/Camera.hpp"
 #include "../include/Bullet.hpp"
+#include "../include/GameData.hpp"
 
 Character* Character::player = nullptr;
 
@@ -117,7 +118,11 @@ void Character::Update(float dt) {
         damageCooldown.Update(dt);
     }
     deathTimer.Update(dt);
-    if (dead && deathTimer.Get() > 5) {
+    if (dead && deathTimer.Get() > 2) {
+        if (this == player) {
+            GameData::ended = true;
+            GameData::playerVictory = false;
+        }
         associated.RequestDelete();
     }
 }
