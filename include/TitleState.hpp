@@ -19,6 +19,7 @@ private:
     bool up;
     int counter;
     weak_ptr<GameObject> instructionsObject;
+    GameObject* backgroudImage;
 };
 
 #endif //TITLESTATE_HPP

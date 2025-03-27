@@ -11,11 +11,10 @@
 #include "../include/Text.hpp"
 
 TitleState::TitleState() {
-    GameObject* bgObject = new GameObject();
-    AddObject(bgObject);
-    SpriteRenderer* titleBg = new SpriteRenderer(*bgObject, "../Recursos/img/Title.png");
-    Camera::Follow(bgObject);
-    bgObject->AddComponent(titleBg);
+    backgroudImage = new GameObject();
+    AddObject(backgroudImage);
+    SpriteRenderer* titleBg = new SpriteRenderer(*backgroudImage, "../Recursos/img/Title.png");
+    backgroudImage->AddComponent(titleBg);
 
     GameObject* instructionsObject = new GameObject();
     this->instructionsObject = AddObject(instructionsObject);
@@ -67,6 +66,7 @@ void TitleState::Render() {
 }
 void TitleState::LoadAssets() {}
 void TitleState::Start() {
+    Camera::Follow(this->backgroudImage);
     StartArray();
 }
 void TitleState::Pause() {}
