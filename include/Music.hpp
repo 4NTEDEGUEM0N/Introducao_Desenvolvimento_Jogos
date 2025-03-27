@@ -1,6 +1,7 @@
 #ifndef MUSIC_HPP
 #define MUSIC_HPP
 
+#include <memory>
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
@@ -9,7 +10,7 @@ using namespace std;
 
 class Music {
 private:
-    Mix_Music* music;
+    shared_ptr<Mix_Music> music;
 
 public:
     Music();

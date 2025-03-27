@@ -17,7 +17,7 @@ Music::Music(string file) {
 void Music::Play(int times) {
     if (music != nullptr) {
         Mix_VolumeMusic(32);
-        bool mix_playmusic = Mix_PlayMusic(music, times);
+        bool mix_playmusic = Mix_PlayMusic(music.get(), times);
         if (mix_playmusic == -1) {
             cerr << "Erro - Mix_PlayMusic: " << SDL_GetError() << endl;
             exit(1);

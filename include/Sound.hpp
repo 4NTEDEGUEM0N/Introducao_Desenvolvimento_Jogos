@@ -2,12 +2,13 @@
 #define SOUND_HPP
 #include <SDL_mixer.h>
 #include <string>
+#include <memory>
 
 using namespace std;
 
 class Sound {
 private:
-    Mix_Chunk* chunk;
+    shared_ptr<Mix_Chunk> chunk;
     int channel;
 
 public:

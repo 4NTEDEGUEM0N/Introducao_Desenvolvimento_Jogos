@@ -112,6 +112,8 @@ void Game::Run(){
             if (stateStack.top()->PopRequested()) {
                 stateStack.pop();
                 Resources::ClearImages();
+                Resources::ClearMusics();
+                Resources::ClearSounds();
                 Resources::ClearFonts();
                 if (!stateStack.empty())
                     stateStack.top()->Resume();
