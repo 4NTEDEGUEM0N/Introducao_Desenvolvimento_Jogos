@@ -25,8 +25,8 @@ void WaveSpawner::Update(float dt) {
         GameObject* zombieObject = new GameObject();
         state.AddObject(zombieObject);
         Zombie* zmb = new Zombie(*zombieObject, 100);
-        int waveX = 576 + rand()%(1984 - 576 + 1);
-        int waveY = 448 + rand()%(2112 - 448 + 1);
+        int waveX = 640 + rand()%(1856 - 640 + 1);
+        int waveY = 512 + rand()%(1984 - 512 + 1);
         zombieObject->box.X = waveX;
         zombieObject->box.Y = waveY;
         zombieObject->AddComponent(zmb);
@@ -39,8 +39,8 @@ void WaveSpawner::Update(float dt) {
         currentWave += 1;
 
         State& state = Game::GetInstance().GetState();
-        int waveX = 576 + rand()%(1984 - 576 + 1);
-        int waveY = 448 + rand()%(2112 - 448 + 1);
+        int waveX = 640 + rand()%(1856 - 640 + 1);
+        int waveY = 512 + rand()%(1984 - 512 + 1);
         GameObject* aiObject = new GameObject();
         aiObject->box.X = waveX;
         aiObject->box.Y = waveY;

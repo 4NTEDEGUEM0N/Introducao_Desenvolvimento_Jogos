@@ -79,8 +79,17 @@ void Character::Update(float dt) {
                 Vec2 direction = task.pos;
                 direction = direction.normalize();
                 speed = direction * linearSpeed;
+                Rect new_box = associated.box + (speed * dt);
+                if (new_box.X > 1856)
+                    new_box.X = 1856;
+                else if (new_box.X < 640)
+                    new_box.X = 640;
+                if (new_box.Y > 1984)
+                    new_box.Y = 1984;
+                else if (new_box.Y < 512)
+                    new_box.Y = 512;
 
-                associated.box = associated.box + (speed * dt);
+                associated.box = new_box;
             }
         } else if (task.type == Command::SHOOT) {
             Component* component = gun.lock()->GetComponent("Gun");
