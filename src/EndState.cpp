@@ -4,7 +4,7 @@
 #include "../include/Text.hpp"
 #include "../include/InputManager.hpp"
 #include "../include/Game.hpp"
-#include "../include/TitleState.hpp"+
+#include "../include/TitleState.hpp"
 #include "../include/Camera.hpp"
 
 EndState::EndState() {

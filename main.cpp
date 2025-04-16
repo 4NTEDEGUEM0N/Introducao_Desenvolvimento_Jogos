@@ -1,6 +1,7 @@
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
 #include "include/Game.hpp"
 #include <iostream>
-
 #include "include/EndState.hpp"
 #include "include/StageState.hpp"
 #include "include/TitleState.hpp"

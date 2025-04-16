@@ -36,8 +36,9 @@ Game::Game(string title, int width, int height){
         exit(1);
     }
 
-    int img_init = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
-    if (img_init != (IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF)) {
+    //int img_init = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
+    int img_init = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
+    if (img_init != (IMG_INIT_JPG | IMG_INIT_PNG)) {
         cerr << "Erro - IMG_Init: "<< SDL_GetError() << endl;
         exit(1);
     }
